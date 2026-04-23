@@ -1,10 +1,13 @@
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("移动设置")]
     public float moveSpeed = 6f;
+    public float dashSpeedMult = 4f;
+    public float aimSpeedMult = 0.5f;
 
     [Header("平滑设置")]
     public float minSmoothTime = 0.02f;
@@ -21,8 +24,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rb;
     private GameInput _input;
     private Vector2 _moveInput;
+    private Vector3 _dashDirection;
     private bool _isAiming;
     private bool _isScouting;
+    private bool _isDashing;
+    private bool _isInvincible;
+    private bool _dashAnimationCompleted;
     private float _hVelocity, _vVelocity; // 用于平滑记录的临时变量
 
     void Awake()
@@ -36,6 +43,8 @@ public class PlayerController : MonoBehaviour
         _input.Player.Aim.canceled += ctx => _isAiming = false;
 
         _input.Player.Scout.performed += ctx => _isScouting = !_isScouting;
+
+        _input.Player.Dash.performed += ctx => TryDash();
     }
 
     void OnEnable()
@@ -64,6 +73,42 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         HandleMovement();
+    }
+
+    void TryDash()
+    {
+        if (!_isDashing)
+        {
+            StartCoroutine(DashRoutine());
+        }
+    }
+
+    private IEnumerator DashRoutine()
+    {
+        _isDashing = true;
+        _isInvincible = true;
+        _dashAnimationCompleted = false;
+
+        // 锁定方向
+        Vector3 inputDir = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
+
+        // 如果按下时有移动输入，冲向移动方向；否则冲向角色面对的方向
+        _dashDirection = inputDir != Vector3.zero ? inputDir : transform.forward;
+
+        // 瞬间转向冲刺方向
+        transform.rotation = Quaternion.LookRotation(_dashDirection);
+
+        animator.SetTrigger("Dash");
+
+        yield return new WaitUntil(() => _dashAnimationCompleted);
+
+        _isDashing = false;
+        _isInvincible = false;
+    }
+
+    public void OnDashAnimationEnd()
+    {
+        _dashAnimationCompleted = true;
     }
 
     void UpdateMouseWorldPosition()
@@ -98,19 +143,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void UnitMove(Vector3 dir, float mult)
+    {
+        _rb.MovePosition(_rb.position + dir * (moveSpeed * mult) * Time.fixedDeltaTime);
+    }
+
     void HandleMovement()
     {
+        if (_isDashing)
+        {
+            UnitMove(_dashDirection, dashSpeedMult);
+            return;
+        }
+
         Vector3 inputDir = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
 
         if (inputDir == Vector3.zero) return;
 
-        float multiplier = _isAiming ? 0.5f : 1.0f;
+        float multiplier = _isAiming ? aimSpeedMult : 1f;
 
-        _rb.MovePosition(_rb.position + inputDir * multiplier * moveSpeed * Time.fixedDeltaTime);
+        UnitMove(inputDir, multiplier);
     }
 
     void HandleRotation()
     {
+        if (_isDashing)
+            return;
+
         Vector3 lookDir;
         Vector3 moveDir = new Vector3(_moveInput.x, 0, _moveInput.y);
 
