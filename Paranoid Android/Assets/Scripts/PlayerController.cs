@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("移动设置")]
     public float moveSpeed = 6f;
-    public float dashSpeedMult = 4f;
+    public float dashSpeedMult = 3.5f;
     public float aimSpeedMult = 0.5f;
 
     [Header("平滑设置")]
@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private bool _isDashing;
     private bool _isInvincible;
     private bool _dashAnimationCompleted;
+    private PlayerVisual _visual;
     private float _hVelocity, _vVelocity; // 用于平滑记录的临时变量
 
     void Awake()
@@ -45,6 +46,8 @@ public class PlayerController : MonoBehaviour
         _input.Player.Scout.performed += ctx => _isScouting = !_isScouting;
 
         _input.Player.Dash.performed += ctx => TryDash();
+
+        _visual = GetComponent<PlayerVisual>();
     }
 
     void OnEnable()
@@ -98,9 +101,13 @@ public class PlayerController : MonoBehaviour
         // 瞬间转向冲刺方向
         transform.rotation = Quaternion.LookRotation(_dashDirection);
 
+        _visual.SetElectric(1f);
+
         animator.SetTrigger("Dash");
 
         yield return new WaitUntil(() => _dashAnimationCompleted);
+
+        _visual.SetElectric(0f);
 
         _isDashing = false;
         _isInvincible = false;
