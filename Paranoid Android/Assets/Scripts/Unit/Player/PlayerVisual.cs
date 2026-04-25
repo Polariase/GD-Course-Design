@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class PlayerVisual : MonoBehaviour
 {
-    [Header("渲染器引用")]
+    [Header("引用")]
     public Renderer playerRenderer;
+    public PlayerStateData stateData;
 
     [Header("Shader属性名称")]
     public string intensityPropertyName = "_FlowIntensity";
+    public string burnIntensityName = "_BurnIntensity";
+
+    public float maxBurnIntensity = 1f;
 
     private Material _playerMaterial;
     private int _intensityID;
+    private int _burnIntensityID;
 
     void Awake()
     {
@@ -21,8 +26,18 @@ public class PlayerVisual : MonoBehaviour
         _playerMaterial = playerRenderer.material;
 
         _intensityID = Shader.PropertyToID(intensityPropertyName);
+        _burnIntensityID = Shader.PropertyToID(burnIntensityName);
+
+        stateData.OnLoadChanged += OnLoadChanged;
 
         SetElectric(0f);
+    }
+
+    void OnLoadChanged(float value)
+    {
+        float weight = Mathf.InverseLerp(50f, 100f, value);
+        float currentBurn = weight * maxBurnIntensity;
+        _playerMaterial.SetFloat(_burnIntensityID, currentBurn);
     }
 
     public void SetElectric(float intensity)

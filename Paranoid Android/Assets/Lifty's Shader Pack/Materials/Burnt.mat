@@ -42,14 +42,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Density: 26
-    - Noise_Scale: 291.6
-    - Power: 23.6
-    - _Offset: 12.6
+    - Density: 19.4
+    - Noise_Scale: 480.5
+    - Power: 18.6
+    - _Offset: 31.84
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - Noise_Color: {r: 0.3301887, g: 0.30238834, b: 0.26944643, a: 0}
+    - Noise_Color: {r: 1, g: 1, b: 1, a: 0}
     - Shallow_Color: {r: 0.31132078, g: 0.17755687, b: 0.024964407, a: 0}
     - _Color: {r: 127.999985, g: 4.0209417, b: 0, a: 0}
   m_BuildTextureStacks: []

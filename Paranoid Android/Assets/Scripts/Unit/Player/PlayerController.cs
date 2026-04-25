@@ -1,5 +1,7 @@
 using Cinemachine;
 using System.Collections;
+using System.Runtime.InteropServices;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 6f;
     public float dashSpeedMult = 3.5f;
     public float aimSpeedMult = 0.5f;
+    public float dashLoadCost = 20f;
 
     [Header("平滑设置")]
     public float minSmoothTime = 0.02f;
@@ -18,6 +21,10 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public CinemachineVirtualCamera vc;
     public LayerMask groundLayer;
+    [SerializeField] private PlayerStateData stateData;
+
+    //复合状态判断
+    public bool CanFire => !isDashing && isArmed && !stateData.overloaded;
 
     private CinemachineFramingTransposer transposer;
     private Vector3 _mouseWorldPosition;
@@ -25,10 +32,15 @@ public class PlayerController : MonoBehaviour
     private GameInput _input;
     private Vector2 _moveInput;
     private Vector3 _dashDirection;
-    private bool _isAiming;
-    private bool _isScouting;
-    private bool _isDashing;
-    private bool _isInvincible;
+
+    //单位状态
+    public bool isFiring;
+    public bool isAiming;
+    public bool isScouting;
+    public bool isDashing;
+    public bool isArmed;
+    public bool isInvincible;
+
     private bool _dashAnimationCompleted;
     private PlayerVisual _visual;
     private float _hVelocity, _vVelocity; // 用于平滑记录的临时变量
@@ -40,12 +52,27 @@ public class PlayerController : MonoBehaviour
         _input = new GameInput();
         transposer = vc.GetCinemachineComponent<CinemachineFramingTransposer>();
 
-        _input.Player.Aim.started += ctx => _isAiming = true;
-        _input.Player.Aim.canceled += ctx => _isAiming = false;
+        _input.Player.Aim.performed += ctx => isAiming = true;
+        _input.Player.Aim.canceled += ctx => isAiming = false;
 
-        _input.Player.Scout.performed += ctx => _isScouting = !_isScouting;
+        _input.Player.Scout.performed += ctx => isScouting = !isScouting;
 
         _input.Player.Dash.performed += ctx => TryDash();
+
+        stateData.OnSlotChanged += OnSwitchSlot;
+
+        _input.Player.SwitchSlot.performed += ctx => {
+            int slot = Mathf.RoundToInt(ctx.ReadValue<float>());
+            stateData.SelectSlot(slot);
+        };
+
+        _input.Player.Fire.performed += ctx => {
+            if (isArmed)
+            {
+                isFiring = true;
+            }
+        };
+        _input.Player.Fire.canceled += ctx => isFiring = false;
 
         _visual = GetComponent<PlayerVisual>();
     }
@@ -66,6 +93,8 @@ public class PlayerController : MonoBehaviour
 
         UpdateMouseWorldPosition();
 
+        stateData.Cooling(Time.deltaTime);
+
         HandleRotation();
 
         HandleCameraOffset();
@@ -78,9 +107,28 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
     }
 
+    void OnSwitchSlot(int slot)
+    {
+        if (slot > 0)
+            isArmed = true;
+        else
+        {
+            isArmed = false;
+            isFiring = false;
+        }
+    }
+
+    float SpeedScale()
+    {
+        if (isAiming || (isFiring && CanFire))
+            return aimSpeedMult;
+        else
+            return 1f;
+    }
+
     void TryDash()
     {
-        if (!_isDashing)
+        if (!isDashing && !stateData.overloaded)
         {
             StartCoroutine(DashRoutine());
         }
@@ -88,8 +136,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DashRoutine()
     {
-        _isDashing = true;
-        _isInvincible = true;
+        isDashing = true;
+        isInvincible = true;
         _dashAnimationCompleted = false;
 
         // 锁定方向
@@ -103,14 +151,16 @@ public class PlayerController : MonoBehaviour
 
         _visual.SetElectric(1f);
 
+        stateData.Overload(dashLoadCost);
+
         animator.SetTrigger("Dash");
 
         yield return new WaitUntil(() => _dashAnimationCompleted);
 
         _visual.SetElectric(0f);
 
-        _isDashing = false;
-        _isInvincible = false;
+        isDashing = false;
+        isInvincible = false;
     }
 
     public void OnDashAnimationEnd()
@@ -131,7 +181,7 @@ public class PlayerController : MonoBehaviour
     {
         if (transposer == null) return;
 
-        if (_isScouting)
+        if (isScouting)
         {
             // 计算从玩家指向鼠标的世界空间向量
             Vector3 worldOffset = _mouseWorldPosition - transform.position;
@@ -152,12 +202,12 @@ public class PlayerController : MonoBehaviour
 
     void UnitMove(Vector3 dir, float mult)
     {
-        _rb.MovePosition(_rb.position + dir * (moveSpeed * mult) * Time.fixedDeltaTime);
+        _rb.MovePosition(_rb.position + (moveSpeed * mult) * Time.fixedDeltaTime * dir);
     }
 
     void HandleMovement()
     {
-        if (_isDashing)
+        if (isDashing)
         {
             UnitMove(_dashDirection, dashSpeedMult);
             return;
@@ -167,23 +217,21 @@ public class PlayerController : MonoBehaviour
 
         if (inputDir == Vector3.zero) return;
 
-        float multiplier = _isAiming ? aimSpeedMult : 1f;
-
-        UnitMove(inputDir, multiplier);
+        UnitMove(inputDir, SpeedScale());
     }
 
     void HandleRotation()
     {
-        if (_isDashing)
+        if (isDashing)
             return;
 
         Vector3 lookDir;
-        Vector3 moveDir = new Vector3(_moveInput.x, 0, _moveInput.y);
+        Vector3 moveDir = new(_moveInput.x, 0, _moveInput.y);
 
         // 计算鼠标方向向量
         Vector3 mouseDir = (_mouseWorldPosition - transform.position).normalized;
 
-        if (_isScouting)
+        if (isScouting)
         {
             // 瞭望模式下：始终看向鼠标
             lookDir = mouseDir;
@@ -193,7 +241,7 @@ public class PlayerController : MonoBehaviour
             // 非瞭望模式下：
             // 如果正在瞄准，看向鼠标
             // 如果正在快速移动，看向移动方向
-            if (_isAiming)
+            if (isAiming)
             {
                 lookDir = mouseDir;
             }
@@ -213,11 +261,9 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimation()
     {
-        if (animator == null) return;
-
         Vector3 movementVector = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
         Vector3 localVelocity = transform.InverseTransformDirection(movementVector);
-        float speedMultiplier = _isAiming ? 0.5f : 1.0f;
+        float speedMultiplier = SpeedScale();
 
         float targetH = localVelocity.x * speedMultiplier;
         float targetV = localVelocity.z * speedMultiplier;
@@ -237,5 +283,11 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("Horizontal", currentH);
         animator.SetFloat("Vertical", currentV);
+        animator.SetBool("IsArmed", isArmed);
+        animator.SetBool("IsAiming", isAiming);
+        if (CanFire)
+            animator.SetBool("IsFiring", isFiring);
+        else
+            animator.SetBool("IsFiring", false);
     }
 }
