@@ -8,6 +8,7 @@ public class WeaponManager : MonoBehaviour
     public PlayerStateData stateData;
     public MyPool.BulletPool bulletPool;
     public Transform firePoint;
+    public string bulletType;
 
     [Header("…Ë÷√")]
     public float fireRate = 10f;
@@ -41,8 +42,7 @@ public class WeaponManager : MonoBehaviour
 
     void Fire()
     {
-        GameObject bullet = bulletPool.Get("Normal");
-        bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+        bulletPool.GetAndSet(bulletType, firePoint.position, firePoint.rotation);
         stateData.Overload(loadPerShot);
     }
 }

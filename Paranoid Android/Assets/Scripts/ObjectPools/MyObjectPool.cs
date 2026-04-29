@@ -39,12 +39,22 @@ namespace MyPool
         {
             return new(
                     /*createFunc:*/ () => Instantiate(_obj, transform),
-                    /*actionOnGet:*/ (obj) => { if (obj != null) obj.SetActive(true); else Debug.LogWarning("Get Null From Pool"); },
-                    /*actionOnRelease:*/ (obj) => { if (obj != null) obj.SetActive(false); else Debug.LogWarning("Free Null From Pool"); },
+                    /*actionOnGet:*/ OnGet,
+                    /*actionOnRelease:*/ OnRelease,
                     /*actionOnDestroy*:*/ (obj) => { if (obj != null) Destroy(obj); },
                     /*collectionCheck:*/ true,
                     /*defaultCapacity:*/ 10,
                     /*maxSize:*/ 80);
+        }
+
+        protected virtual void OnGet(GameObject obj)
+        {
+            if (obj != null) obj.SetActive(true);
+        }
+
+        protected virtual void OnRelease(GameObject obj)
+        {
+            if (obj != null) obj.SetActive(false);
         }
 
         protected virtual void Configure()

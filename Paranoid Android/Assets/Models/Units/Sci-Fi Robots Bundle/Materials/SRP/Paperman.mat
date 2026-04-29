@@ -111,9 +111,9 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FlowDensity: 6
+    - _FlowDensity: 8
     - _FlowIntensity: 0
-    - _FlowPower: 25
+    - _FlowPower: 18
     - _FlowSpeed: 5
     - _GlossMapScale: 0.5
     - _Glossiness: 0.5

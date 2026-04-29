@@ -388,10 +388,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8c92e8943a9914ba89720ba5fcf806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 16
+  viewRadius: 20
   softenDistance: 3
   innerSoftenAngle: 5
-  unobscuredRadius: 1
+  unobscuredRadius: 1.2
   unobscuredSoftenDistance: 0.25
   visionHeight: 3
   visionHeightSoftenDistance: 1.5
@@ -651,7 +651,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.7763568e-15, y: 19.999998, z: 0.0000024018805}
+  m_LocalPosition: {x: 1.7763568e-15, y: 24.999996, z: 0.0000029979265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1285,7 +1285,7 @@ Transform:
   m_GameObject: {fileID: 959326980}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.7763568e-15, y: 19.999998, z: 0.0000024018805}
+  m_LocalPosition: {x: 1.7763568e-15, y: 24.999996, z: 0.0000029979265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1390,7 +1390,7 @@ MonoBehaviour:
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_CameraDistance: 20
+  m_CameraDistance: 25
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -1607,6 +1607,7 @@ MonoBehaviour:
   stateData: {fileID: 11400000, guid: ccd4b84898e275745bddf687d64a6b4c, type: 2}
   bulletPool: {fileID: 1759941474}
   firePoint: {fileID: 1007851458}
+  bulletType: Scarlet
   fireRate: 10
   loadPerShot: 2
 --- !u!1 &1259241783 stripped
@@ -1715,6 +1716,8 @@ MonoBehaviour:
   playerRenderer: {fileID: 0}
   stateData: {fileID: 11400000, guid: ccd4b84898e275745bddf687d64a6b4c, type: 2}
   intensityPropertyName: _FlowIntensity
+  burnIntensityName: _BurnIntensity
+  maxBurnIntensity: 1
 --- !u!1001 &1719548156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2185,7 +2188,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 824039034365173944, guid: cf11479a43114a7428cad99fd71db9c5, type: 3}
+  - {fileID: 4284454992651997810, guid: cf432d6da7a91784e9b1d59fd45d297a, type: 3}
+  - {fileID: 2424529827393365886, guid: 572b53e531162c04191c526f622350ee, type: 3}
+  - {fileID: 5583348091241280017, guid: 18c6a4763b47ee940ae4d55a8f614fd2, type: 3}
+  - {fileID: 7751131731172211196, guid: 2bb90ebfd6c62b147a9c9f324c5b1da9, type: 3}
+  - {fileID: 7220909504719930458, guid: 24d46002b5a583d419cc231eadb4c59d, type: 3}
+  - {fileID: 2353652757235033596, guid: 0f47c0b07cc7e4249af7b5ee511a9a33, type: 3}
+  - {fileID: 6966692523387876187, guid: 63e0391f1f5bedf478eb669492e06f77, type: 3}
 --- !u!1001 &1767715056
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2548,7 +2557,7 @@ GameObject:
   - component: {fileID: 1995458287}
   - component: {fileID: 1995458286}
   - component: {fileID: 1995458285}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

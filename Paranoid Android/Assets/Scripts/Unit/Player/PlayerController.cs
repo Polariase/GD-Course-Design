@@ -225,31 +225,8 @@ public class PlayerController : MonoBehaviour
         if (isDashing)
             return;
 
-        Vector3 lookDir;
-        Vector3 moveDir = new(_moveInput.x, 0, _moveInput.y);
-
         // 计算鼠标方向向量
-        Vector3 mouseDir = (_mouseWorldPosition - transform.position).normalized;
-
-        if (isScouting)
-        {
-            // 瞭望模式下：始终看向鼠标
-            lookDir = mouseDir;
-        }
-        else
-        {
-            // 非瞭望模式下：
-            // 如果正在瞄准，看向鼠标
-            // 如果正在快速移动，看向移动方向
-            if (isAiming)
-            {
-                lookDir = mouseDir;
-            }
-            else
-            {
-                lookDir = moveDir.normalized;
-            }
-        }
+        Vector3 lookDir = (_mouseWorldPosition - transform.position).normalized;
 
         // 执行旋转
         if (lookDir != Vector3.zero)
