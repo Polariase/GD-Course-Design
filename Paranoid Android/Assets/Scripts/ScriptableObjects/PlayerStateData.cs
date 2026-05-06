@@ -27,6 +27,8 @@ public class PlayerStateData : ScriptableObject
     public float coolingAcceleration = 15f;
     private float _lastOverload;
 
+    public float OverloadPercentage => Mathf.InverseLerp(0f, 100f, currentLoad);
+
     public void Overload(float value)
     {
         currentLoad += value;

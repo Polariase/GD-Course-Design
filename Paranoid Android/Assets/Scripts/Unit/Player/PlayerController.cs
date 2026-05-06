@@ -2,14 +2,18 @@ using Cinemachine;
 using System.Collections;
 using System.Runtime.InteropServices;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("移动设置")]
     public float moveSpeed = 6f;
     public float dashSpeedMult = 3.5f;
-    public float aimSpeedMult = 0.5f;
+    public float aimSpeedMult = 0.6f;
+    public float fireSpeedMult = 0.5f;
     public float dashLoadCost = 20f;
 
     [Header("平滑设置")]
@@ -23,11 +27,13 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     [SerializeField] private PlayerStateData stateData;
 
+    public Vector3 mouseWorldPosition;
+
     //复合状态判断
     public bool CanFire => !isDashing && isArmed && !stateData.overloaded;
 
     private CinemachineFramingTransposer transposer;
-    private Vector3 _mouseWorldPosition;
+    private Vector3 _lookDir;
     private Rigidbody _rb;
     private GameInput _input;
     private Vector2 _moveInput;
@@ -40,10 +46,11 @@ public class PlayerController : MonoBehaviour
     public bool isDashing;
     public bool isArmed;
     public bool isInvincible;
+    public bool isMoving;
 
-    private bool _dashAnimationCompleted;
+    readonly private float _dashDuration = 0.355f;
     private PlayerVisual _visual;
-    private float _hVelocity, _vVelocity; // 用于平滑记录的临时变量
+    private float _hVelocity, _vVelocity, _rVelocity;  // 用于平滑记录的临时变量
 
     void Awake()
     {
@@ -61,12 +68,14 @@ public class PlayerController : MonoBehaviour
 
         stateData.OnSlotChanged += OnSwitchSlot;
 
-        _input.Player.SwitchSlot.performed += ctx => {
+        _input.Player.SwitchSlot.performed += ctx =>
+        {
             int slot = Mathf.RoundToInt(ctx.ReadValue<float>());
             stateData.SelectSlot(slot);
         };
 
-        _input.Player.Fire.performed += ctx => {
+        _input.Player.Fire.performed += ctx =>
+        {
             if (isArmed)
             {
                 isFiring = true;
@@ -91,7 +100,7 @@ public class PlayerController : MonoBehaviour
     {
         _moveInput = _input.Player.Move.ReadValue<Vector2>();
 
-        UpdateMouseWorldPosition();
+        UpdateLookDirection();
 
         stateData.Cooling(Time.deltaTime);
 
@@ -120,10 +129,12 @@ public class PlayerController : MonoBehaviour
 
     float SpeedScale()
     {
-        if (isAiming || (isFiring && CanFire))
-            return aimSpeedMult;
-        else
-            return 1f;
+        float mult = 1f;
+        if (isAiming)
+            mult *= aimSpeedMult;
+        if (isFiring && CanFire)
+            mult *= fireSpeedMult;
+        return mult;
     }
 
     void TryDash()
@@ -138,7 +149,6 @@ public class PlayerController : MonoBehaviour
     {
         isDashing = true;
         isInvincible = true;
-        _dashAnimationCompleted = false;
 
         // 锁定方向
         Vector3 inputDir = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
@@ -155,7 +165,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetTrigger("Dash");
 
-        yield return new WaitUntil(() => _dashAnimationCompleted);
+        yield return new WaitForSeconds(_dashDuration);
 
         _visual.SetElectric(0f);
 
@@ -163,20 +173,17 @@ public class PlayerController : MonoBehaviour
         isInvincible = false;
     }
 
-    public void OnDashAnimationEnd()
+    void UpdateLookDirection()
     {
-        _dashAnimationCompleted = true;
-    }
-
-    void UpdateMouseWorldPosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit, 100, groundLayer))
         {
-            _mouseWorldPosition = hit.point;
-            _mouseWorldPosition.y = transform.position.y;
+            mouseWorldPosition = hit.point;
+            mouseWorldPosition.y = transform.position.y;
         }
+        _lookDir = (mouseWorldPosition - transform.position).normalized;
     }
+
     void HandleCameraOffset()
     {
         if (transposer == null) return;
@@ -184,7 +191,7 @@ public class PlayerController : MonoBehaviour
         if (isScouting)
         {
             // 计算从玩家指向鼠标的世界空间向量
-            Vector3 worldOffset = _mouseWorldPosition - transform.position;
+            Vector3 worldOffset = mouseWorldPosition - transform.position;
 
             // 将这个世界向量缩短到 1/5
             worldOffset /= 5f;
@@ -222,44 +229,75 @@ public class PlayerController : MonoBehaviour
 
     void HandleRotation()
     {
-        if (isDashing)
-            return;
-
-        // 计算鼠标方向向量
-        Vector3 lookDir = (_mouseWorldPosition - transform.position).normalized;
+        if (isDashing) return;
 
         // 执行旋转
-        if (lookDir != Vector3.zero)
+        if (_lookDir != Vector3.zero)
         {
-            Quaternion targetRot = Quaternion.LookRotation(lookDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotationSpeed);
+            float targetAngle = Mathf.Atan2(_lookDir.x, _lookDir.z) * Mathf.Rad2Deg;
+
+            // 角度平滑阻尼
+            float angle = Mathf.SmoothDampAngle(
+                transform.eulerAngles.y,
+                targetAngle,
+                ref _rVelocity,
+                0.1f
+            );
+
+            transform.rotation = Quaternion.Euler(0, angle, 0);
         }
     }
 
     void UpdateAnimation()
     {
-        Vector3 movementVector = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
-        Vector3 localVelocity = transform.InverseTransformDirection(movementVector);
-        float speedMultiplier = SpeedScale();
+        isMoving = _moveInput.magnitude > 0.01f && !isDashing;
+        animator.SetBool("IsMoving", isMoving);
 
-        float targetH = localVelocity.x * speedMultiplier;
-        float targetV = localVelocity.z * speedMultiplier;
+        if (isMoving)
+        {
+            Vector3 movementVector = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
+            Vector3 localVelocity = transform.InverseTransformDirection(movementVector);
+            float speedMultiplier = SpeedScale();
 
-        // 1. 计算差异的绝对值 (范围通常在 0 到 2 之间，因为是从 -1 到 1)
-        float deltaH = Mathf.Abs(targetH - animator.GetFloat("Horizontal"));
-        float deltaV = Mathf.Abs(targetV - animator.GetFloat("Vertical"));
+            float targetH = localVelocity.x * speedMultiplier;
+            float targetV = localVelocity.z * speedMultiplier;
 
-        // 2. 将差异映射到平滑时间 (这里假设差异达到 1 时达到最大平滑时间)
-        // t 的值越大，SmoothDamp 越慢
-        float dynamicSmoothH = Mathf.Lerp(minSmoothTime, maxSmoothTime, deltaH);
-        float dynamicSmoothV = Mathf.Lerp(minSmoothTime, maxSmoothTime, deltaV);
+            // 1. 计算差异的绝对值 (范围通常在 0 到 2 之间，因为是从 -1 到 1)
+            float deltaH = Mathf.Abs(targetH - animator.GetFloat("Horizontal"));
+            float deltaV = Mathf.Abs(targetV - animator.GetFloat("Vertical"));
 
-        // 3. 应用动态平滑时间
-        float currentH = Mathf.SmoothDamp(animator.GetFloat("Horizontal"), targetH, ref _hVelocity, dynamicSmoothH);
-        float currentV = Mathf.SmoothDamp(animator.GetFloat("Vertical"), targetV, ref _vVelocity, dynamicSmoothV);
+            // 2. 将差异映射到平滑时间 (这里假设差异达到 1 时达到最大平滑时间)
+            // t 的值越大，SmoothDamp 越慢
+            float dynamicSmoothH = Mathf.Lerp(minSmoothTime, maxSmoothTime, deltaH);
+            float dynamicSmoothV = Mathf.Lerp(minSmoothTime, maxSmoothTime, deltaV);
 
-        animator.SetFloat("Horizontal", currentH);
-        animator.SetFloat("Vertical", currentV);
+            // 3. 应用动态平滑时间
+            float currentH = Mathf.SmoothDamp(animator.GetFloat("Horizontal"), targetH, ref _hVelocity, dynamicSmoothH);
+            float currentV = Mathf.SmoothDamp(animator.GetFloat("Vertical"), targetV, ref _vVelocity, dynamicSmoothV);
+
+            animator.SetFloat("Horizontal", currentH);
+            animator.SetFloat("Vertical", currentV);
+            animator.SetFloat("TurnSpeed", 0f);
+        }
+        else
+        {
+            animator.SetFloat("Horizontal", 0f);
+            animator.SetFloat("Vertical", 0f);
+
+            // 计算转身逻辑
+            if (_lookDir != Vector3.zero)
+            {
+                bool isActuallyRotating = Mathf.Abs(_rVelocity) > 20f;
+                float targetTurn = isActuallyRotating ? Mathf.Sign(_rVelocity) : 0f;
+                float currentTurn = Mathf.MoveTowards(
+                    animator.GetFloat("TurnSpeed"),
+                    targetTurn,
+                    Time.deltaTime * 2f
+                );
+                animator.SetFloat("TurnSpeed", currentTurn);
+            }
+        }
+
         animator.SetBool("IsArmed", isArmed);
         animator.SetBool("IsAiming", isAiming);
         if (CanFire)
