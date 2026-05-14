@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,37 +7,31 @@ using UnityEngine;
 public class HUDController : MonoBehaviour
 {
     public TextMeshProUGUI overload;
-    public TextMeshProUGUI slot;
-    public PlayerStateData stateData;
+    private PlayerStateData _stateData;
+
+
+    private void Start()
+    {
+        if(_stateData == null)
+        {
+            _stateData = PlayerController.Instance.stateData;
+            _stateData.OnLoadChanged += OnLoadChanged;
+        }
+    }
 
     private void OnEnable()
     {
-        if (stateData != null)
+        if (_stateData != null)
         {
-            stateData.OnSlotChanged += OnSlotChange;
-            stateData.OnLoadChanged += OnLoadChanged;
+            _stateData.OnLoadChanged += OnLoadChanged;
         }
     }
 
     private void OnDisable()
     {
-        if (stateData != null)
+        if (_stateData != null)
         {
-            stateData.OnSlotChanged -= OnSlotChange;
-            stateData.OnLoadChanged -= OnLoadChanged;
-        }
-    }
-
-    // 更新槽位显示
-    void OnSlotChange(int slotIndex)
-    {
-        if (slotIndex == -1)
-        {
-            slot.text = "Unarmed";
-        }
-        else
-        {
-            slot.text = $"Slot: {slotIndex}";
+            _stateData.OnLoadChanged -= OnLoadChanged;
         }
     }
 

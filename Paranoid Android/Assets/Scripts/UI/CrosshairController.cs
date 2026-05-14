@@ -14,19 +14,21 @@ public class CrosshairController : MonoBehaviour
     public RectTransform[] linesTransform;
     public Camera mainCamera;
     public PlayerController pc;
-    public WeaponManager weapon;
+    public WeaponController weapon;
     public Gradient spreadGradient;
 
     [SerializeField] private float _minSpread = 2f;
     [SerializeField] private float _maxSpread = 100f;
     [SerializeField] private float _smoothTime = 0.1f;
     private float _currentSpreadVelocity;
-    private float _visualSpread;        
+    private float _visualSpread;
+    private PlayerInput _input;
     
 
     private void Start()
     {
         mainCamera = Camera.main;
+        _input = PlayerController.Instance.GetComponent<PlayerInput>();
     }
 
     private void LateUpdate()
@@ -37,7 +39,7 @@ public class CrosshairController : MonoBehaviour
     public void UpdateCrosshair()
     {
         // 更新准星根位置到鼠标位置
-        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Vector2 mousePos = _input.actions["Look"].ReadValue<Vector2>();
         crosshairRoot.position = mousePos;
 
         // 获取落点和扩散角
@@ -80,6 +82,6 @@ public class CrosshairController : MonoBehaviour
             img.color = targetColor;
         }
 
-        dotImage.color = targetColor;
+        dotImage.color = new(targetColor.r, targetColor.g, targetColor.b, weapon.aimWeight);
     }
 }

@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using UnityEditor.Experimental.GraphView;
@@ -9,6 +10,8 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+
     [Header("移动设置")]
     public float moveSpeed = 6f;
     public float dashSpeedMult = 3.5f;
@@ -25,7 +28,13 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public CinemachineVirtualCamera vc;
     public LayerMask groundLayer;
-    [SerializeField] private PlayerStateData stateData;
+    public PlayerStateData stateData = new();
+    private PlayerInput _input;
+    private PlayerVisual _visual;
+
+    //事件
+    public Action<bool> OnArmed;
+    //
 
     public Vector3 mouseWorldPosition;
 
@@ -35,7 +44,6 @@ public class PlayerController : MonoBehaviour
     private CinemachineFramingTransposer transposer;
     private Vector3 _lookDir;
     private Rigidbody _rb;
-    private GameInput _input;
     private Vector2 _moveInput;
     private Vector3 _dashDirection;
 
@@ -49,56 +57,52 @@ public class PlayerController : MonoBehaviour
     public bool isMoving;
 
     readonly private float _dashDuration = 0.355f;
-    private PlayerVisual _visual;
     private float _hVelocity, _vVelocity, _rVelocity;  // 用于平滑记录的临时变量
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
-        _input = new GameInput();
+        _visual = GetComponent<PlayerVisual>();
         transposer = vc.GetCinemachineComponent<CinemachineFramingTransposer>();
 
-        _input.Player.Aim.performed += ctx => isAiming = true;
-        _input.Player.Aim.canceled += ctx => isAiming = false;
-
-        _input.Player.Scout.performed += ctx => isScouting = !isScouting;
-
-        _input.Player.Dash.performed += ctx => TryDash();
-
-        stateData.OnSlotChanged += OnSwitchSlot;
-
-        _input.Player.SwitchSlot.performed += ctx =>
+        _input = GetComponent<PlayerInput>();
+        foreach (var item in _input.actions.actionMaps)
         {
-            int slot = Mathf.RoundToInt(ctx.ReadValue<float>());
-            stateData.SelectSlot(slot);
-        };
+            item.Disable();
+        }
+        _input.SwitchCurrentActionMap("Player");
+        _input.currentActionMap.Enable();
+        _input.actions["Aim"].performed += ctx => isAiming = true;
+        _input.actions["Aim"].canceled += ctx => isAiming = false;
 
-        _input.Player.Fire.performed += ctx =>
+        _input.actions["Scout"].performed += ctx => isScouting = !isScouting;
+
+        _input.actions["Dash"].performed += ctx => TryDash();
+
+        stateData.OnSelectedChanged += OnSwitchSlot;
+
+        _input.actions["Fire"].performed += ctx =>
         {
             if (isArmed)
             {
                 isFiring = true;
             }
         };
-        _input.Player.Fire.canceled += ctx => isFiring = false;
+        _input.actions["Fire"].canceled += ctx => isFiring = false;
 
-        _visual = GetComponent<PlayerVisual>();
-    }
-
-    void OnEnable()
-    {
-        _input.Player.Enable();
-    }
-
-    void OnDisable()
-    {
-        _input.Player.Disable();
     }
 
     void Update()
     {
-        _moveInput = _input.Player.Move.ReadValue<Vector2>();
+        _moveInput = _input.actions["Move"].ReadValue<Vector2>();
 
         UpdateLookDirection();
 
@@ -116,15 +120,18 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
     }
 
-    void OnSwitchSlot(int slot)
+    void OnSwitchSlot(int slot, InventoryItem item)
     {
-        if (slot > 0)
-            isArmed = true;
-        else
+        bool wasArmed = isArmed;
+        if (item == null || item.itemID <= 0)
         {
             isArmed = false;
             isFiring = false;
         }
+        else if (DataManager.Instance.GetItem(item.itemID).itemType == ItemType.Weapon)
+            isArmed = true;
+        if (isArmed != wasArmed)
+            OnArmed?.Invoke(isArmed);
     }
 
     float SpeedScale()
@@ -175,7 +182,9 @@ public class PlayerController : MonoBehaviour
 
     void UpdateLookDirection()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        Vector2 lookValue = _input.actions["Look"].ReadValue<Vector2>();
+        if (lookValue == Vector2.zero) return;
+        Ray ray = Camera.main.ScreenPointToRay(lookValue);
         if (Physics.Raycast(ray, out RaycastHit hit, 100, groundLayer))
         {
             mouseWorldPosition = hit.point;

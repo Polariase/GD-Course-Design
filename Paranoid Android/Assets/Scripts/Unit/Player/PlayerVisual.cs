@@ -6,7 +6,7 @@ public class PlayerVisual : MonoBehaviour
 {
     [Header("引用")]
     public Renderer playerRenderer;
-    public PlayerStateData stateData;
+    private PlayerStateData _stateData;
 
     [Header("Shader属性名称")]
     public string intensityPropertyName = "_FlowIntensity";
@@ -28,9 +28,13 @@ public class PlayerVisual : MonoBehaviour
         _intensityID = Shader.PropertyToID(intensityPropertyName);
         _burnIntensityID = Shader.PropertyToID(burnIntensityName);
 
-        stateData.OnLoadChanged += OnLoadChanged;
-
         SetElectric(0f);
+    }
+
+    private void Start()
+    {
+        _stateData = PlayerController.Instance.stateData;
+        _stateData.OnLoadChanged += OnLoadChanged;
     }
 
     void OnLoadChanged(float value)
