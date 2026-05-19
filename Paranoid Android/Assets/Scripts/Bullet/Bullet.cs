@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour
         }
         if (lightSource != null)
             lightSource.enabled = true;
-        _maxLifeTime = maxDistance / speed;
+        _maxLifeTime = speed > 0 ? (maxDistance / speed) : 1f;
         _lifeTime = 0f;
         _isHit = false;
     }
@@ -76,6 +76,12 @@ public class Bullet : MonoBehaviour
         {
             ReturnToPool();
         }
+    }
+
+    public void Init(float bulletSpeed, float maxDistance)
+    {
+        speed = bulletSpeed;
+        this.maxDistance = maxDistance;
     }
 
     void HandleHit(RaycastHit hit)

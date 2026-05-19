@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3c677eca984a9b4ab8bf51a16f16c54, type: 3}
+  m_Script: {fileID: 11500000, guid: aef496dadb0787b4b9bd7ccce7d99662, type: 3}
   m_Name: Item_1003
   m_EditorClassIdentifier: 
   itemID: 1003
@@ -20,3 +20,12 @@ MonoBehaviour:
   weight: 3.5
   iconAddress: ScrawlerIcon
   prefabAddress: Scrawler
+  fireRate: 6
+  loadPerShot: 2.5
+  baseSpread: 3.3
+  aimSpreadMult: 0.5
+  aimSpeed: 0.7
+  damage: 35
+  bulletSpeed: 18
+  distance: 30
+  modelAddress: ScrawlerModel

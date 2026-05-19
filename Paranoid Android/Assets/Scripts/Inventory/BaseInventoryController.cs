@@ -118,7 +118,15 @@ public abstract class BaseInventoryController : MonoBehaviour, IInventoryHandler
     public virtual void RequestDrop(DragPayload session)
     {
         if (session.SourceHandler != (IInventoryHandler)this) return;
+        InventoryItem itemToDrop = session.Item;
         inventoryData.SetItem(session.SourceIndex, null);
-        Debug.Log("Item Dropped in World");
+
+        Transform player = PlayerController.Instance.transform;
+        float distance = 1f;
+        float height = 0.5f;
+
+        Vector3 spawnPos = player.position + (player.forward * distance) + (Vector3.up * height);
+
+        _ = PoolManager.Instance.item.SpawnItemAsync(itemToDrop, spawnPos);
     }
 }

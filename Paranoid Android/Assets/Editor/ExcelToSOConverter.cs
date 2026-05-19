@@ -60,34 +60,77 @@ public class ExcelToSOConverter
 
                     int id = int.Parse(idStr);
 
-                    //查找或创建 ScriptableObject
+                    ItemType it;
+                    string typeStr = GetValue("ItemType");
+                    if (System.Enum.TryParse(typeStr, out ItemType t))
+                    {
+                        it = t;
+                    }
+                    else
+                    {
+                        it = ItemType.Loot; // 默认 Loot
+                    }
+
                     string assetPath = $"{soSavePath}Item_{id}.asset";
+
                     ItemData item = AssetDatabase.LoadAssetAtPath<ItemData>(assetPath);
 
                     if (item == null)
                     {
-                        item = ScriptableObject.CreateInstance<ItemData>();
+                        if (it == ItemType.Weapon)
+                            item = ScriptableObject.CreateInstance<WeaponData>();
+                        else
+                            item = ScriptableObject.CreateInstance<ItemData>();
+
+                        AssetDatabase.CreateAsset(item, assetPath);
+                    }
+                    else if (item.itemType != it)
+                    {
+                        AssetDatabase.DeleteAsset(assetPath);
+                        if (it == ItemType.Weapon)
+                            item = ScriptableObject.CreateInstance<WeaponData>();
+                        else
+                            item = ScriptableObject.CreateInstance<ItemData>();
                         AssetDatabase.CreateAsset(item, assetPath);
                     }
 
                     item.itemID = id;
                     item.itemName = GetValue("Name");
                     item.description = GetValue("Description");
-                    item.prefabAddress = GetValue("PrefabAddress");
-                    item.iconAddress = GetValue("IconAddress");
                     int.TryParse(GetValue("MaxStack"), out int maxStack);
                     item.maxStack = maxStack == 0 ? 1 : maxStack;
                     float.TryParse(GetValue("Weight"), out float w);
                     item.weight = w;
+                    item.prefabAddress = item.itemName;
+                    item.iconAddress = item.itemName + "Icon";
 
-                    string typeStr = GetValue("ItemType");
-                    if (System.Enum.TryParse(typeStr, out ItemType t))
+                    if (item is WeaponData weapon)
                     {
-                        item.itemType = t;
-                    }
-                    else
-                    {
-                        item.itemType = ItemType.Loot; // 默认 Loot
+                        float.TryParse(GetValue("FireRate"), out float fr);
+                        weapon.fireRate = fr;
+
+                        float.TryParse(GetValue("LoadPerShot"), out float lps);
+                        weapon.loadPerShot = lps;
+
+                        float.TryParse(GetValue("BaseSpread"), out float bs);
+                        weapon.baseSpread = bs;
+
+                        float.TryParse(GetValue("AimSpreadMult"), out float asm);
+                        weapon.aimSpreadMult = asm;
+
+                        float.TryParse(GetValue("AimSpeed"), out float asp);
+                        weapon.aimSpeed = asp;
+
+                        int.TryParse(GetValue("Damage"), out int dmg);
+                        weapon.damage = dmg;
+
+                        float.TryParse(GetValue("BulletSpeed"), out float bsp);
+                        weapon.bulletSpeed = bsp;
+
+                        float.TryParse(GetValue("Distance"), out float dist);
+                        weapon.distance = dist;
+
+                        weapon.modelAddress = weapon.itemName + "Model";
                     }
 
                     EditorUtility.SetDirty(item);

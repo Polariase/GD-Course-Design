@@ -29,6 +29,8 @@ public class HotbarController : BaseInventoryController
 
     private void ValidateCurrentSelection(int index,InventoryItem item)
     {
+        index += 1;
+
         if (stateData.currentSelectedIndex <= 0 || index != stateData.currentSelectedIndex) return;
 
         if (item == null)
@@ -60,9 +62,9 @@ public class HotbarController : BaseInventoryController
     private bool IsValidHotbarItem(InventoryItem item)
     {
         // 如果槽位变为空（item为null），始终允许
-        if (item == null || item.itemID <= 0) return true;
+        if (item == null || item.data.itemID <= 0) return true;
 
-        var config = DataManager.Instance.GetItem(item.itemID);
+        var config = item.data;
         if (config == null) return false;
 
         return config.itemType == ItemType.Weapon ||

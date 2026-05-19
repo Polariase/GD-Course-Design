@@ -38,6 +38,9 @@ public class CrosshairController : MonoBehaviour
 
     public void UpdateCrosshair()
     {
+        if (weapon.firePoint == null)
+            return;
+
         // 更新准星根位置到鼠标位置
         Vector2 mousePos = _input.actions["Look"].ReadValue<Vector2>();
         crosshairRoot.position = mousePos;

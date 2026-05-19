@@ -6,12 +6,12 @@ using UnityEngine;
 [Serializable]
 public class InventoryItem
 {
-    public int itemID;
-    public int count; 
+    public int count;
+    public ItemData data;
 
-    public InventoryItem(int id, int amount)
+    public InventoryItem(ItemData itemData, int amount)
     {
-        itemID = id;
+        data = itemData;
         count = amount;
     }
 
@@ -19,7 +19,7 @@ public class InventoryItem
 
     public InventoryItem Clone(int newCount)
     {
-        InventoryItem newItem = new(itemID, newCount);
+        InventoryItem newItem = new(data, newCount);
         return newItem;
     }
 
@@ -37,7 +37,7 @@ public class InventoryItem
         if (ReferenceEquals(this, obj)) return true;
         if (obj is InventoryItem other)
         {
-            if (itemID == other.itemID)
+            if (data == other.data)
                 return true;
         }
         return false;
@@ -56,6 +56,6 @@ public class InventoryItem
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(itemID);
+        return HashCode.Combine(data.itemID);
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6087362168713854881}
   - component: {fileID: 952103028780811838}
   - component: {fileID: 381467464749130652}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_P01_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,12 @@ GameObject:
   - component: {fileID: 5962566915343748738}
   - component: {fileID: 5301592697920748137}
   - component: {fileID: 1662235001559451155}
-  m_Layer: 0
+  - component: {fileID: 3250094552079900189}
+  - component: {fileID: 3775574283614735808}
+  - component: {fileID: 1056718708987612833}
+  - component: {fileID: -6527824151269399904}
+  - component: {fileID: 9009526984504351385}
+  m_Layer: 8
   m_Name: Protoza
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,6 +180,104 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &3250094552079900189
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823188567106280177}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.5
+  m_Center: {x: 0.026715182, y: -0.012674365, z: -0.00000053364784}
+--- !u!114 &3775574283614735808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823188567106280177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c86903e29925f42af6b0cc7fdf61c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    count: 0
+    data: {fileID: 0}
+--- !u!114 &1056718708987612833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823188567106280177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baffac9783483394086b69ffa5921000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Protoza
+--- !u!54 &-6527824151269399904
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823188567106280177}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &9009526984504351385
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823188567106280177}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5607439710181098277, guid: 3499c3c9691608d4fadeff63f7cf4599, type: 3}
 --- !u!1001 &3430127807599244969
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -262,6 +365,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_Mag_S
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568408947508378670, guid: ab01bfe5d79827744a6b77ff7bd1dc79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

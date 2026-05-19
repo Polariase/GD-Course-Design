@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: MiddleGena
   description: Middle bullet Generator
   maxStack: 1
-  itemType: 3
+  itemType: 0
   weight: 0.3
   iconAddress: MiddleGenaIcon
   prefabAddress: MiddleGena

@@ -13,7 +13,10 @@ GameObject:
   - component: {fileID: 3006538699784440050}
   - component: {fileID: 3626798087256230043}
   - component: {fileID: 2213651831809861389}
-  m_Layer: 0
+  - component: {fileID: 6204412234599241917}
+  - component: {fileID: 4674926111899542324}
+  - component: {fileID: 1885721307478434590}
+  m_Layer: 8
   m_Name: SmallGena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,11 +131,60 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.04676941, y: 0.099130645, z: 0.02064697}
+  m_Center: {x: 0.0000011371449, y: 0.0000008828938, z: -0.0000005341135}
+--- !u!114 &6204412234599241917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3568408947508378670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c86903e29925f42af6b0cc7fdf61c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    count: 0
+    data: {fileID: 0}
+--- !u!114 &4674926111899542324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3568408947508378670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baffac9783483394086b69ffa5921000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: SmallGena
+--- !u!135 &1885721307478434590
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3568408947508378670}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.5
   m_Center: {x: 0.0000011371449, y: 0.0000008828938, z: -0.0000005341135}

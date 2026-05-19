@@ -52,15 +52,15 @@ public class InventoryData
 
     public InventoryItem AddItem(int itemID,int count)
     {
-        return AddItem(new(itemID, count));
+        return AddItem(new(DataManager.Instance.GetItem(itemID), count));
     }
 
     public InventoryItem AddItem(InventoryItem incomingItem)
     {
-        if (incomingItem == null || incomingItem.itemID <= 0) return null;
+        if (incomingItem == null || incomingItem.data.itemID <= 0) return null;
         if (!Acceptable(incomingItem)) return incomingItem;
 
-        ItemData config = DataManager.Instance.GetItem(incomingItem.itemID);
+        ItemData config = incomingItem.data;
         int maxStack = config != null ? config.maxStack : 1;
 
         // 如果可以堆叠，尝试堆叠
@@ -89,7 +89,7 @@ public class InventoryData
         // 尝试放入空格子
         for (int i = 0; i < _items.Count; i++)
         {
-            if (_items[i] == null || _items[i].itemID == 0)
+            if (_items[i] == null || _items[i].data.itemID == 0)
             {
                 if (incomingItem.count > maxStack)
                 {

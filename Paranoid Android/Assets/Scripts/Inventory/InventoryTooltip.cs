@@ -17,12 +17,12 @@ public class InventoryTooltip : MonoBehaviour
         _rectTransform = GetComponent<RectTransform>();
     }
 
-    public void Display(InventoryItem data, Vector2 position)
+    public void Display(InventoryItem item, Vector2 position)
     {
-        ItemData config = DataManager.Instance.GetItem(data.itemID);
+        ItemData config = item.data;
         titleText.text = config.itemName;
         descriptionText.text = config.description;
-        infoText.text = $"type: {config.itemType.ToDisplayName()} | occupation: {config.weight * data.count}";
+        infoText.text = $"type: {config.itemType.ToDisplayName()} | occupation: {config.weight * item.count}";
         gameObject.SetActive(true);
 
         UpdatePosition(position);

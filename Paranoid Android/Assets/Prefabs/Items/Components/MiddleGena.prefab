@@ -13,7 +13,10 @@ GameObject:
   - component: {fileID: 2450023179449427630}
   - component: {fileID: 7313355596312220967}
   - component: {fileID: 5103007338672085581}
-  m_Layer: 0
+  - component: {fileID: 3715423468441347149}
+  - component: {fileID: 8325283536026788737}
+  - component: {fileID: 6240590708925527566}
+  m_Layer: 8
   m_Name: MiddleGena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +131,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -136,3 +139,52 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.063929595, y: 0.12745655, z: 0.021799315}
   m_Center: {x: 0.0000000037252903, y: -0.011557579, z: -0.0000005341135}
+--- !u!135 &3715423468441347149
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4196489628915356274}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.5
+  m_Center: {x: 0.0000000037252903, y: -0.011557579, z: -0.0000005341135}
+--- !u!114 &8325283536026788737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4196489628915356274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baffac9783483394086b69ffa5921000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MiddleGena
+--- !u!114 &6240590708925527566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4196489628915356274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c86903e29925f42af6b0cc7fdf61c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    count: 0
+    data: {fileID: 0}

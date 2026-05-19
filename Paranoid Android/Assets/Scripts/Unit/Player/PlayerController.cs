@@ -1,12 +1,10 @@
 using Cinemachine;
 using System;
 using System.Collections;
-using System.Runtime.InteropServices;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -28,9 +26,14 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public CinemachineVirtualCamera vc;
     public LayerMask groundLayer;
+    public WeaponController weaponController;
     public PlayerStateData stateData = new();
     private PlayerInput _input;
     private PlayerVisual _visual;
+
+    [Header("瞄准约束")]
+    public Transform aimTarget;
+    public Rig aimRig;
 
     //事件
     public Action<bool> OnArmed;
@@ -123,13 +126,24 @@ public class PlayerController : MonoBehaviour
     void OnSwitchSlot(int slot, InventoryItem item)
     {
         bool wasArmed = isArmed;
-        if (item == null || item.itemID <= 0)
+        if (item == null || item.data.itemID <= 0)
         {
             isArmed = false;
             isFiring = false;
+            if (weaponController != null)
+            {
+                weaponController.UnloadCurrentWeapon();
+            }
         }
-        else if (DataManager.Instance.GetItem(item.itemID).itemType == ItemType.Weapon)
+        else if (item.data.itemType == ItemType.Weapon)
+        {
             isArmed = true;
+            if (item.data is WeaponData weaponData && weaponController != null)
+            {
+                Debug.Log("equipting");
+                weaponController.EquipWeapon(weaponData);
+            }
+        }
         if (isArmed != wasArmed)
             OnArmed?.Invoke(isArmed);
     }
@@ -189,6 +203,7 @@ public class PlayerController : MonoBehaviour
         {
             mouseWorldPosition = hit.point;
             mouseWorldPosition.y = transform.position.y;
+            aimTarget.position = mouseWorldPosition;
         }
         _lookDir = (mouseWorldPosition - transform.position).normalized;
     }
@@ -313,5 +328,8 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsFiring", isFiring);
         else
             animator.SetBool("IsFiring", false);
+
+        float targetWeight = ((isArmed || isAiming || isFiring) && !isDashing) ? 1f : 0f;
+        aimRig.weight = Mathf.MoveTowards(aimRig.weight, targetWeight, Time.deltaTime * 5f);
     }
 }

@@ -7,6 +7,7 @@ public class PoolManager : MonoBehaviour
 {
     public static PoolManager Instance;
     public BulletPool bullet;
+    public ItemObjectPool item;
 
     public void Awake()
     {

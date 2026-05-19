@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3c677eca984a9b4ab8bf51a16f16c54, type: 3}
+  m_Script: {fileID: 11500000, guid: aef496dadb0787b4b9bd7ccce7d99662, type: 3}
   m_Name: Item_1004
   m_EditorClassIdentifier: 
   itemID: 1004
@@ -20,3 +20,12 @@ MonoBehaviour:
   weight: 6.5
   iconAddress: ElectrisIcon
   prefabAddress: Electris
+  fireRate: 3
+  loadPerShot: 5
+  baseSpread: 3
+  aimSpreadMult: 0.4
+  aimSpeed: 1
+  damage: 43
+  bulletSpeed: 23
+  distance: 50
+  modelAddress: ElectrisModel

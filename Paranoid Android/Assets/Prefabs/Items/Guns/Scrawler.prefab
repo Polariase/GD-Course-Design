@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4192314818714779988}
   - component: {fileID: 4915438982516014374}
   - component: {fileID: 7628367368835827898}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_ARA3_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,12 @@ GameObject:
   - component: {fileID: 6318804459305008110}
   - component: {fileID: 8268436314572877991}
   - component: {fileID: 8239179682563932139}
-  m_Layer: 0
+  - component: {fileID: 1068709826144682567}
+  - component: {fileID: 7292951454598957575}
+  - component: {fileID: 6282797671750705601}
+  - component: {fileID: -684034567496891267}
+  - component: {fileID: -6984820377834187990}
+  m_Layer: 8
   m_Name: Scrawler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,6 +179,104 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1068709826144682567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362204396444296345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c86903e29925f42af6b0cc7fdf61c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    count: 0
+    data: {fileID: 0}
+--- !u!114 &7292951454598957575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362204396444296345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baffac9783483394086b69ffa5921000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Scrawler
+--- !u!135 &6282797671750705601
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362204396444296345}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.5
+  m_Center: {x: 0.15237036, y: 0.01657492, z: 0.00008485094}
+--- !u!54 &-684034567496891267
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362204396444296345}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &-6984820377834187990
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362204396444296345}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8118810370586087397, guid: 54aa4f257758a4c44958f9f8eab48982, type: 3}
 --- !u!1001 &344559727597690241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,6 +299,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_HoloA
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203518633369298144, guid: 4fdcc0a8dd2295740b89040759c1e8a0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2803657940531975923, guid: 4fdcc0a8dd2295740b89040759c1e8a0,
         type: 3}
@@ -365,6 +473,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_Mag_M
+      objectReference: {fileID: 0}
+    - target: {fileID: 4196489628915356274, guid: 9993367573644934b86393686c564702,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

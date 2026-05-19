@@ -13,7 +13,11 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
 
-    [SerializeField] private InventoryTooltip tooltip;
+    public BaseInventoryController backpack;
+    public BaseInventoryController hotbar;
+    public BaseInventoryController container;
+
+    [SerializeField] private InventoryTooltip _tooltip;
     [SerializeField] private RectTransform _dragVisualRect;
     [SerializeField] private Image _dragVisualImage;
 
@@ -32,6 +36,11 @@ public class InventoryManager : MonoBehaviour
         }
 
         InitDragVisual();
+    }
+
+    public InventoryItem Collect(InventoryItem item)
+    {
+        return backpack.GetData().AddItem(item);
     }
 
     private void InitDragVisual()
@@ -66,12 +75,12 @@ public class InventoryManager : MonoBehaviour
     public void ShowTooltip(InventoryItem item, Vector2 position)
     {
         if (item == null || ActiveSession != null) return; // 正在拖拽时不显示
-        tooltip.Display(item, position);
+        _tooltip.Display(item, position);
     }
 
     public void HideTooltip()
     {
-        if (tooltip != null) tooltip.Hide();
+        if (_tooltip != null) _tooltip.Hide();
     }
 
     public void ForceCancelDrag()
