@@ -6,12 +6,11 @@ using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : UnitController
 {
     public static PlayerController Instance { get; private set; }
 
     [Header("移动设置")]
-    public float moveSpeed = 6f;
     public float dashSpeedMult = 3.5f;
     public float aimSpeedMult = 0.6f;
     public float fireSpeedMult = 0.5f;
@@ -20,10 +19,8 @@ public class PlayerController : MonoBehaviour
     [Header("平滑设置")]
     public float minSmoothTime = 0.02f;
     public float maxSmoothTime = 0.15f;
-    public float rotationSpeed = 15f;
 
     [Header("引用")]
-    public Animator animator;
     public CinemachineVirtualCamera vc;
     public LayerMask groundLayer;
     public WeaponController weaponController;
@@ -46,7 +43,6 @@ public class PlayerController : MonoBehaviour
 
     private CinemachineFramingTransposer transposer;
     private Vector3 _lookDir;
-    private Rigidbody _rb;
     private Vector2 _moveInput;
     private Vector3 _dashDirection;
 
@@ -56,13 +52,11 @@ public class PlayerController : MonoBehaviour
     public bool isScouting;
     public bool isDashing;
     public bool isArmed;
-    public bool isInvincible;
-    public bool isMoving;
 
     readonly private float _dashDuration = 0.355f;
     private float _hVelocity, _vVelocity, _rVelocity;  // 用于平滑记录的临时变量
 
-    void Awake()
+    protected override void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -71,8 +65,7 @@ public class PlayerController : MonoBehaviour
         }
         Instance = this;
 
-        animator = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody>();
+        base.Awake();
         _visual = GetComponent<PlayerVisual>();
         transposer = vc.GetCinemachineComponent<CinemachineFramingTransposer>();
 
@@ -111,8 +104,6 @@ public class PlayerController : MonoBehaviour
 
         stateData.Cooling(Time.deltaTime);
 
-        HandleRotation();
-
         HandleCameraOffset();
 
         UpdateAnimation();
@@ -121,6 +112,8 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         HandleMovement();
+
+        HandleRotation();
     }
 
     void OnSwitchSlot(int slot, InventoryItem item)
@@ -233,7 +226,7 @@ public class PlayerController : MonoBehaviour
 
     void UnitMove(Vector3 dir, float mult)
     {
-        _rb.MovePosition(_rb.position + (moveSpeed * mult) * Time.fixedDeltaTime * dir);
+        rb.MovePosition(rb.position + (moveSpeed * mult) * Time.fixedDeltaTime * dir);
     }
 
     void HandleMovement()

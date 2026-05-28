@@ -37,9 +37,9 @@ public class PlayerVisual : MonoBehaviour
         _stateData.OnLoadChanged += OnLoadChanged;
     }
 
-    void OnLoadChanged(float value)
+    void OnLoadChanged(float load,float maxLoad)
     {
-        float weight = Mathf.InverseLerp(50f, 100f, value);
+        float weight = Mathf.InverseLerp(maxLoad / 2f, maxLoad, load);
         float currentBurn = weight * maxBurnIntensity;
         _playerMaterial.SetFloat(_burnIntensityID, currentBurn);
     }

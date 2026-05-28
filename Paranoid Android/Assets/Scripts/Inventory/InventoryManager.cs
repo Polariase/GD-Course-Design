@@ -36,6 +36,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         InitDragVisual();
+        HideTooltip();
     }
 
     public InventoryItem Collect(InventoryItem item)

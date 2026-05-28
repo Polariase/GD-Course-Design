@@ -8,6 +8,7 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance { get; private set; }
     private readonly Dictionary<int, ItemData> _itemCache = new();
     private readonly Dictionary<string, Sprite> _iconCache = new();
+    private readonly Dictionary<string, GameObject> _weaponModelCache = new();
     public bool IsInitialized { get; private set; } = false;
 
     private void Awake()
@@ -25,10 +26,10 @@ public class DataManager : MonoBehaviour
 
     private void Initialize()
     {
-        LoadAllItemData();
+        LoadAllData();
     }
 
-    private async void LoadAllItemData()
+    private async void LoadAllData()
     {
         AsyncOperationHandle<IList<ItemData>> handle = Addressables.LoadAssetsAsync<ItemData>("ItemData", null);
         await handle.Task;
@@ -52,12 +53,23 @@ public class DataManager : MonoBehaviour
                             _iconCache.Add(data.iconAddress, iconHandle.Result);
                         }
                     }
-                }
-                else
-                {
-                    Debug.LogWarning($"[DataManager] 发现重复的 ItemID: {data.itemID}");
+
+                    if (data is WeaponData weaponData)
+                    {
+                        string addressKey = weaponData.itemName + "Model";
+                        if (!_weaponModelCache.ContainsKey(addressKey))
+                        {
+                            var modelHandle = Addressables.LoadAssetAsync<GameObject>(addressKey);
+                            await modelHandle.Task;
+                            if (modelHandle.Status == AsyncOperationStatus.Succeeded)
+                            {
+                                _weaponModelCache.Add(addressKey, modelHandle.Result);
+                            }
+                        }
+                    }
                 }
             }
+
 
             IsInitialized = true;
             Debug.Log($"[DataManager]成功加载 {_itemCache.Count} 个配置及其缓存图标。");
@@ -86,8 +98,12 @@ public class DataManager : MonoBehaviour
         return null;
     }
 
-    public List<ItemData> GetAllItems()
+    public GameObject GetWeaponModel(string addressKey)
     {
-        return new List<ItemData>(_itemCache.Values);
+        if (_weaponModelCache.TryGetValue(addressKey, out var prefab))
+        {
+            return prefab;
+        }
+        return null;
     }
 }

@@ -51,7 +51,6 @@ public class WeaponController : MonoBehaviour
     public TwoBoneIKConstraint leftHandIK;
     public RigBuilder rigBuilder;
     private GameObject _currentModelInstance;
-    private AsyncOperationHandle<GameObject> _loadHandle;
 
     [Header("设置")]
     public float fireRate = 10f;
@@ -95,7 +94,7 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public async void EquipWeapon(WeaponData data)
+    public void EquipWeapon(WeaponData data)
     {
         UnloadCurrentWeapon();
 
@@ -111,8 +110,15 @@ public class WeaponController : MonoBehaviour
 
         string addressKey = data.itemName + "Model";
 
-        _loadHandle = Addressables.InstantiateAsync(addressKey, weaponHolder);
-        _currentModelInstance = await _loadHandle.Task;
+        GameObject modelPrefab = DataManager.Instance.GetWeaponModel(addressKey);
+
+        if (modelPrefab == null)
+        {
+            Debug.LogError($"[WeaponController] 装备失败，DataManager 中没有缓存该模型: {addressKey}");
+            return;
+        }
+
+        _currentModelInstance = Instantiate(modelPrefab, weaponHolder);
 
         if (_currentModelInstance != null)
         {
@@ -152,7 +158,7 @@ public class WeaponController : MonoBehaviour
 
         if (_currentModelInstance != null)
         {
-            Addressables.Release(_loadHandle);
+            Destroy(_currentModelInstance);
             _currentModelInstance = null;
         }
     }

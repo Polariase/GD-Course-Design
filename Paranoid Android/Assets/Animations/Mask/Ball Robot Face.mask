@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Ball Robot Face
+  m_Mask: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: ball_robot
+    m_Weight: 0
+  - m_Path: ball_robot/back_fan
+    m_Weight: 0
+  - m_Path: ball_robot/back_ring
+    m_Weight: 0
+  - m_Path: ball_robot/body_door
+    m_Weight: 0
+  - m_Path: ball_robot/body_door/body_door_L
+    m_Weight: 0
+  - m_Path: ball_robot/body_door/body_door_R
+    m_Weight: 0
+  - m_Path: ball_robot/body_inside
+    m_Weight: 0
+  - m_Path: ball_robot/body_inside_ring
+    m_Weight: 0
+  - m_Path: ball_robot/body_inside_VFX
+    m_Weight: 0
+  - m_Path: ball_robot/body_outside
+    m_Weight: 0
+  - m_Path: ball_robot/body_outside_VFX
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_L
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_L/ear_bottom
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_L/ear_bottom/ear_hold
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_L/ear_bottom/ear_hold/ear
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_L/ear_bottom/ear_hold/ear/ear_VFX_L
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_R
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_R/ear_bottom
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_R/ear_bottom/ear_hold
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_R/ear_bottom/ear_hold/ear
+    m_Weight: 0
+  - m_Path: ball_robot/ear_link_R/ear_bottom/ear_hold/ear/ear_VFX_R
+    m_Weight: 0
+  - m_Path: ball_robot/eye_display
+    m_Weight: 1
+  - m_Path: ball_robot/foot_link_L
+    m_Weight: 0
+  - m_Path: ball_robot/foot_link_L/foot_L
+    m_Weight: 0
+  - m_Path: ball_robot/foot_link_R
+    m_Weight: 0
+  - m_Path: ball_robot/foot_link_R/foot_R
+    m_Weight: 0
+  - m_Path: ball_robot/front_ring
+    m_Weight: 0
+  - m_Path: ball_robot/glass_A
+    m_Weight: 0
+  - m_Path: ball_robot/glass_B
+    m_Weight: 0
+  - m_Path: ball_robot/power_center
+    m_Weight: 0
