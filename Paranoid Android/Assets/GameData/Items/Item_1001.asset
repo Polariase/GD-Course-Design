@@ -18,6 +18,7 @@ MonoBehaviour:
   maxStack: 1
   itemType: 0
   weight: 0.8
+  value: 50
   iconAddress: ProtozaIcon
   prefabAddress: Protoza
   fireRate: 4.5
