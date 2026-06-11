@@ -102,6 +102,11 @@ public class PlayerController : UnitController
 
         UpdateLookDirection();
 
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            isAiming = !isAiming;
+        }
+
         stateData.Cooling(Time.deltaTime);
 
         HandleCameraOffset();

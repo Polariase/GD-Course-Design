@@ -117,14 +117,14 @@ public class PatrolDroneController : UnitController
         // 1. 绘制当前行动状态文字（实时悬浮在无人机头顶 2 米处）
         // -------------------------------------------------------------
 #if UNITY_EDITOR
-        string stateText = isAlert ? "<color=red>[激活]</color>" : "<color=green>[休眠]</color>";
+        string stateText = isAlert ? "<color=red>激活</color>" : "<color=green>休眠</color>";
         if (agent != null && agent.hasPath)
         {
-            stateText += "\n<color=cyan>正在前往巡逻点</color>";
+            stateText += "\n<color=cyan>移动中</color>";
         }
         if (currentTarget != null)
         {
-            stateText += $"\n锁定目标: {currentTarget.name}";
+            stateText += $"\n目标: {currentTarget.name}";
         }
 
         GUIStyle style = new GUIStyle();
