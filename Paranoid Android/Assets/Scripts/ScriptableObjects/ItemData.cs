@@ -17,6 +17,7 @@ public class ItemData : ScriptableObject
     [Header("ÓÎÏ·Âß¼­ÊôĞÔ")]
     public ItemType itemType;
     public float weight;
+    public int value;
 
     [Header("Addressable Keys")]
     public string iconAddress;

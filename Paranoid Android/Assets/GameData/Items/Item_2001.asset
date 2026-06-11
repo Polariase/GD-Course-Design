@@ -16,7 +16,8 @@ MonoBehaviour:
   itemName: SmallGena
   description: Small bullet Generator
   maxStack: 1
-  itemType: 0
+  itemType: 3
   weight: 0.2
+  value: 100
   iconAddress: SmallGenaIcon
   prefabAddress: SmallGena

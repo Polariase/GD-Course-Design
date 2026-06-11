@@ -18,6 +18,7 @@ MonoBehaviour:
   maxStack: 1
   itemType: 0
   weight: 2.8
+  value: 500
   iconAddress: Albus02Icon
   prefabAddress: Albus02
   fireRate: 8

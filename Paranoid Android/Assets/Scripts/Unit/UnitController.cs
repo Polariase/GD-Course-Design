@@ -10,6 +10,7 @@ public abstract class UnitController : MonoBehaviour, IHittable
     [Header("ÒýÓÃ")]
     public Animator animator;
     public Rigidbody rb;
+    public CapsuleCollider capsule;
 
     public bool isMoving;
     public bool isInvincible;
@@ -18,6 +19,7 @@ public abstract class UnitController : MonoBehaviour, IHittable
     {
         rb = GetComponent<Rigidbody>();
         if (animator == null) animator = GetComponent<Animator>();
+        capsule = GetComponent<CapsuleCollider>();
     }
 
     public virtual bool Hit(float damage, RaycastHit hitInfo)
@@ -28,5 +30,10 @@ public abstract class UnitController : MonoBehaviour, IHittable
     public virtual bool TakeDamage(float damage)
     {
         return false;
+    }
+
+    public Vector3 HitPoint()
+    {
+        return capsule.bounds.center;
     }
 }

@@ -18,6 +18,7 @@ MonoBehaviour:
   maxStack: 1
   itemType: 0
   weight: 3.5
+  value: 500
   iconAddress: ScrawlerIcon
   prefabAddress: Scrawler
   fireRate: 6

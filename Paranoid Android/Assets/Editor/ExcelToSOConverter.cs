@@ -82,6 +82,8 @@ public class ExcelToSOConverter
                         else
                             item = ScriptableObject.CreateInstance<ItemData>();
 
+                        item.itemType = it;
+
                         AssetDatabase.CreateAsset(item, assetPath);
                     }
                     else if (item.itemType != it)
@@ -91,6 +93,8 @@ public class ExcelToSOConverter
                             item = ScriptableObject.CreateInstance<WeaponData>();
                         else
                             item = ScriptableObject.CreateInstance<ItemData>();
+
+                        item.itemType = it;
                         AssetDatabase.CreateAsset(item, assetPath);
                     }
 
@@ -101,6 +105,7 @@ public class ExcelToSOConverter
                     item.maxStack = maxStack == 0 ? 1 : maxStack;
                     float.TryParse(GetValue("Weight"), out float w);
                     item.weight = w;
+                    item.value = int.Parse(GetValue("Value"));
                     item.prefabAddress = item.itemName;
                     item.iconAddress = item.itemName + "Icon";
 
