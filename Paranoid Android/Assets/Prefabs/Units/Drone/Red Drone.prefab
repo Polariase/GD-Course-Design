@@ -2081,6 +2081,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7984810556384602133
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8653361916205820514}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8653361916205820514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7984810556384602133}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7239557846676566174}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8012962762961201700
 GameObject:
   m_ObjectHideFlags: 0
@@ -2092,6 +2123,13 @@ GameObject:
   - component: {fileID: 7239557846676566174}
   - component: {fileID: 7202006754646890347}
   - component: {fileID: 4175408773732134652}
+  - component: {fileID: 7978321448811171802}
+  - component: {fileID: 1867080380966991278}
+  - component: {fileID: -1096685892066107024}
+  - component: {fileID: 4856474652048701692}
+  - component: {fileID: -1949166072202141772}
+  - component: {fileID: -595397374728738037}
+  - component: {fileID: 5204602847708223080}
   m_Layer: 0
   m_Name: Red Drone
   m_TagString: Untagged
@@ -2112,6 +2150,7 @@ Transform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8653361916205820514}
   - {fileID: 6493686776605124121}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2148,15 +2187,183 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc535c61166e58948a6e3fe9ea8577ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
-  rotationSpeed: 15
+  moveSpeed: 8
   animator: {fileID: 0}
   rb: {fileID: 0}
+  capsule: {fileID: 0}
   isMoving: 0
   isInvincible: 0
-  maxHp: 60
+  maxHp: 75
   hp: 0
+  activateRadius: 5
+  detectRadius: 30
+  combatRadius: 10
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentTarget: {fileID: 0}
+  agent: {fileID: 0}
   isAlert: 0
+  lostPos: {x: 0, y: 0, z: 0}
+--- !u!195 &7978321448811171802
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012962762961201700}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.6
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1867080380966991278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012962762961201700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 1
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 11400000, guid: b292697e8b9f09942a22372bfdcdc3bf, type: 2}
+  mBehaviorSource:
+    behaviorName: Drone
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Target","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"IsAlert","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"LostPos","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Destinatoin","IsShared":true,"Vector3mValue":"(0,0,0)"}]}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
+--- !u!54 &-1096685892066107024
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012962762961201700}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &4856474652048701692
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012962762961201700}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &-1949166072202141772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012962762961201700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c78af948052824d93c22c84c08dd65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SamplePoints: []
+  PermanentlyReveal: 0
+--- !u!114 &-595397374728738037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012962762961201700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dfbeda9b3b3aa04bbb897826b875157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectsToHide:
+  - {fileID: 694872167770732669}
+--- !u!114 &5204602847708223080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012962762961201700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbad08555d557454487495dd1a064f54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPool: {fileID: 0}
+  firePoint: {fileID: 8653361916205820514}
+  bulletType: 0
+  fireRate: 5
+  bulletSpeed: 20
+  distance: 30
+  spreadAngle: 4
 --- !u!1 &8230128375549771445
 GameObject:
   m_ObjectHideFlags: 0

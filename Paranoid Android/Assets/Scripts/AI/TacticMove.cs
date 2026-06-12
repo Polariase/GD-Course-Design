@@ -16,8 +16,8 @@ public class TacticMove : Action
     public override void OnAwake()
     {
         drone = GetComponent<PatrolDroneController>();
-        minRange = 0.4f * drone.combatRadius;
-        maxRange = 0.8f * drone.combatRadius;
+        minRange = 0.3f * drone.combatRadius;
+        maxRange = 0.7f * drone.combatRadius;
         agent = GetComponent<NavMeshAgent>();
     }
 

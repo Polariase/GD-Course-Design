@@ -17,8 +17,12 @@ public class VirtualWeapon : MonoBehaviour
 
     private void Awake()
     {
-        bulletPool = PoolManager.Instance.bullet;
         firePoint = transform.Find("FirePoint");
+    }
+
+    private void Start()
+    {
+        bulletPool = PoolManager.Instance.bullet;
     }
 
     void Update()
@@ -35,7 +39,21 @@ public class VirtualWeapon : MonoBehaviour
     {
         if (!CanFire() || firePoint == null || target == null) return;
 
-        Vector3 fireDirection = (target.position - firePoint.position).normalized;
+        UnitController unit = target.gameObject.GetComponentInParent<UnitController>();
+        Vector3 targetPos;
+
+        if (unit != null)
+        {
+            targetPos = unit.HitPoint();
+        }
+        else
+        {
+            string components = string.Join<Component>(", ", target.gameObject.GetComponents<Component>());
+            Debug.LogWarning($"VirtualWeapon: {target.name} 身上找不到 UnitController! 它包含的组件有: [{components}]");
+            return;
+        }
+
+        Vector3 fireDirection = (targetPos - firePoint.position).normalized;
 
         if (fireDirection == Vector3.zero) fireDirection = firePoint.forward;
 
