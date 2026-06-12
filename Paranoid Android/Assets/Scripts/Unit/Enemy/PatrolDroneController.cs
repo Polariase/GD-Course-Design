@@ -11,7 +11,7 @@ public class PatrolDroneController : UnitController
 
     public float activateRadius = 5f;
     public float detectRadius = 25f;
-    public float combatRadius = 10f;
+    public float combatRadius = 7f;
     public LayerMask playerLayer;
     public Transform currentTarget;
     public NavMeshAgent agent;
@@ -25,7 +25,6 @@ public class PatrolDroneController : UnitController
     protected override void Awake()
     {
         base.Awake();
-        moveSpeed = 8f;
         playerLayer = 1 << LayerMask.NameToLayer("Player");
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();

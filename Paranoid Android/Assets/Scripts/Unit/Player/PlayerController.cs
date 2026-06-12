@@ -187,7 +187,7 @@ public class PlayerController : UnitController
         yield return new WaitForSeconds(_dashDuration);
 
         _visual.SetElectric(0f);
-
+        rb.velocity = Vector3.zero;
         isDashing = false;
         isInvincible = false;
     }
@@ -238,7 +238,11 @@ public class PlayerController : UnitController
     {
         if (isDashing)
         {
-            UnitMove(_dashDirection, dashSpeedMult);
+            if (isDashing)
+            {
+                rb.velocity = _dashDirection * (moveSpeed * dashSpeedMult);
+                return;
+            }
             return;
         }
 

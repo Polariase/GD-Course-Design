@@ -5,7 +5,6 @@ public abstract class UnitController : MonoBehaviour, IHittable
 {
     [Header("移动设置")]
     public float moveSpeed = 6f;
-    public float rotationSpeed = 15f;
 
     [Header("引用")]
     public Animator animator;
@@ -19,7 +18,7 @@ public abstract class UnitController : MonoBehaviour, IHittable
     {
         rb = GetComponent<Rigidbody>();
         if (animator == null) animator = GetComponent<Animator>();
-        capsule = GetComponent<CapsuleCollider>();
+        capsule = GetComponentInChildren<CapsuleCollider>();
     }
 
     public virtual bool Hit(float damage, RaycastHit hitInfo)
