@@ -8,14 +8,14 @@ public class Chase : Action
     public SharedTransform target;
     public SharedVector3 targetPosition;
     public float offset = 1f;
-    private PatrolDroneController drone;
+    private EnemyController unit;
 
     private float updateTimer = 0f;
     private const float UPDATE_INTERVAL = 0.3f;
 
     public override void OnAwake()
     {
-        drone = GetComponent<PatrolDroneController>();
+        unit = GetComponent<EnemyController>();
     }
 
     public override TaskStatus OnUpdate()
@@ -27,9 +27,9 @@ public class Chase : Action
         targetPos.y = 0;
         float distance = Vector3.Distance(myPos, targetPos);
 
-        if (distance <= drone.combatRadius - offset)
+        if (distance <= unit.combatRadius - offset)
         {
-            drone.agent.ResetPath();
+            unit.agent.ResetPath();
             return TaskStatus.Success;
         }
 
@@ -37,10 +37,10 @@ public class Chase : Action
         if (updateTimer >= UPDATE_INTERVAL)
         {
             updateTimer = 0f;
-            if (drone.agent.isActiveAndEnabled)
+            if (unit.agent.isActiveAndEnabled)
             {
                 targetPosition.Value = targetPos;
-                drone.agent.SetDestination(targetPosition.Value);
+                unit.agent.SetDestination(targetPosition.Value);
             }
         }
 

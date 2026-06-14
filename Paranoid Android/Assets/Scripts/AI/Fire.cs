@@ -10,9 +10,10 @@ public class Fire : Action
     public bool isRepeating = false;//连续射击，射速翻倍
     public float warmup = 0.5f;
     public float rotationSpeed = 12f;
+    public bool slowDownWhileFiring = false;
+    public bool setRotation = true;
+    public EnemyController unit;
 
-
-    // 可选的时间限制，单位为秒，设置为0或负数表示没有时间限制
     public float maxDuration = 0f;
 
     private VirtualWeapon weapon;
@@ -23,6 +24,8 @@ public class Fire : Action
     public override void OnAwake()
     {
         weapon = GetComponent<VirtualWeapon>();
+        unit = GetComponent<EnemyController>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     public override void OnStart()
@@ -30,8 +33,12 @@ public class Fire : Action
         // 每次进入节点时重置计时器
         warmupTimer = warmup;
         currentTimer = 0f;
+        if (slowDownWhileFiring && agent != null)
+        {
+            agent.speed = unit.moveSpeed / 2f;
+        }
 
-        if (agent != null)
+        if (setRotation && agent != null)
         {
             agent.updateRotation = false; // 关闭寻路组件的自动旋转
         }
@@ -71,6 +78,18 @@ public class Fire : Action
         weapon.Fire(target.Value, isRepeating);
 
         return TaskStatus.Running;
+    }
+
+    public override void OnEnd()
+    {
+        if (setRotation && agent != null)
+        {
+            agent.updateRotation = true;
+        }
+        if (slowDownWhileFiring && agent != null)
+        {
+            agent.speed = unit.moveSpeed;
+        }
     }
 
     private void RotateTowardsTarget()

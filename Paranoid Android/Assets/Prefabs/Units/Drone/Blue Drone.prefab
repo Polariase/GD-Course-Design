@@ -1240,22 +1240,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   animator: {fileID: 0}
-  rb: {fileID: 0}
   capsule: {fileID: 0}
   isMoving: 0
   isInvincible: 0
   maxHp: 60
   hp: 0
-  activateRadius: 5
-  detectRadius: 25
-  combatRadius: 7
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
   currentTarget: {fileID: 0}
   agent: {fileID: 0}
-  isAlert: 0
   lostPos: {x: 0, y: 0, z: 0}
+  detectRadius: 25
+  combatRadius: 7
+  damage: 10
+  DeathVFX: {fileID: 1738658161782828, guid: 59df56773d272824cb823b07f2311c51, type: 3}
+  activateRadius: 5
+  isAlert: 0
+  rb: {fileID: 0}
 --- !u!195 &4123573769323096950
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1326,9 +1328,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4877586757665599631}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 2
+  m_Drag: 0.1
+  m_AngularDrag: 0.5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1360,7 +1362,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1411,9 +1413,10 @@ MonoBehaviour:
   bulletPool: {fileID: 0}
   firePoint: {fileID: 0}
   bulletType: 0
+  unit: {fileID: 0}
   fireRate: 4
-  bulletSpeed: 15
-  distance: 25
+  bulletSpeed: 25
+  distance: 40
   spreadAngle: 3.5
 --- !u!1 &5102664804843581707
 GameObject:

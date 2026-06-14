@@ -2166,14 +2166,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8c92e8943a9914ba89720ba5fcf806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 20
+  viewRadius: 25
   softenDistance: 3
   innerSoftenAngle: 5
-  unobscuredRadius: 1.2
+  unobscuredRadius: 1.5
   unobscuredSoftenDistance: 0.25
   visionHeight: 10
   visionHeightSoftenDistance: 1.5
-  viewAngle: 100
+  viewAngle: 135
   opacity: 1
   EyeOffset: 0
   ShaderEyeOffset: 0
@@ -2560,7 +2560,7 @@ GameObject:
   - component: {fileID: 5635605822077061556}
   m_Layer: 6
   m_Name: Paperman
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2648,10 +2648,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   animator: {fileID: 0}
-  rb: {fileID: 0}
   capsule: {fileID: 0}
   isMoving: 0
   isInvincible: 0
+  rb: {fileID: 0}
   dashSpeedMult: 3.5
   aimSpeedMult: 0.5
   fireSpeedMult: 0.5

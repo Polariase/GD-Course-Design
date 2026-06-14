@@ -50,9 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 35
   maxDistance: 20
-  hitLayer:
-    serializedVersion: 2
-    m_Bits: 129
+  damage: 1
   UseFirePointRotation: 0
   hitOffset: 0.1
   rotationOffset: {x: 0, y: 0, z: 0}
@@ -63,6 +61,7 @@ MonoBehaviour:
   projectilePS: {fileID: 7807157765994464377}
   detachedObj: []
   lightSource: {fileID: 0}
+  critRate: 0
 --- !u!108 &5407634868043234157
 Light:
   m_ObjectHideFlags: 0

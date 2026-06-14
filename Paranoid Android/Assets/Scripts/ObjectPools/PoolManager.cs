@@ -8,6 +8,7 @@ public class PoolManager : MonoBehaviour
     public static PoolManager Instance;
     public BulletPool bullet;
     public ItemObjectPool item;
+    public PopupPool popup;
 
     public void Awake()
     {
@@ -15,6 +16,8 @@ public class PoolManager : MonoBehaviour
         {
             Instance = this;
             bullet = GetComponentInChildren<BulletPool>();
+            item = GetComponentInChildren<ItemObjectPool>();
+            popup = GetComponentInChildren<PopupPool>();
         }
         else
         {

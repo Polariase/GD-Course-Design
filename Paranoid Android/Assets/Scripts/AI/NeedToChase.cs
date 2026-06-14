@@ -6,16 +6,16 @@ using BehaviorDesigner.Runtime.Tasks;
 public class NeedToChase : Conditional
 {
     public SharedTransform target;
-    private PatrolDroneController drone;
+    private EnemyController unit;
 
     public override void OnAwake()
     {
-        drone = GetComponent<PatrolDroneController>();
+        unit = GetComponent<EnemyController>();
     }
 
     public override TaskStatus OnUpdate()
     {
-        if (drone != null && target.Value!=null)
+        if (unit != null && target.Value!=null)
         {
             Vector3 myPos = transform.position;
             Vector3 targetPos = target.Value.position;
@@ -23,7 +23,7 @@ public class NeedToChase : Conditional
             targetPos.y = 0;
             float distance = Vector3.Distance(myPos, targetPos);
 
-            if (distance > drone.combatRadius)
+            if (distance > unit.combatRadius)
             {
                 return TaskStatus.Success;
             }

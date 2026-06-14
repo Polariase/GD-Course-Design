@@ -10,6 +10,8 @@ public class PlayerController : UnitController
 {
     public static PlayerController Instance { get; private set; }
 
+    public Rigidbody rb;
+
     [Header("“∆∂Ø…Ë÷√")]
     public float dashSpeedMult = 3.5f;
     public float aimSpeedMult = 0.6f;
@@ -24,7 +26,7 @@ public class PlayerController : UnitController
     public CinemachineVirtualCamera vc;
     public LayerMask groundLayer;
     public WeaponController weaponController;
-    public PlayerStateData stateData = new();
+    [SerializeField] public PlayerStateData stateData;
     private PlayerInput _input;
     private PlayerVisual _visual;
 
@@ -66,6 +68,10 @@ public class PlayerController : UnitController
         Instance = this;
 
         base.Awake();
+        rb = GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.sleepThreshold = 0f;
+
         _visual = GetComponent<PlayerVisual>();
         transposer = vc.GetCinemachineComponent<CinemachineFramingTransposer>();
 
@@ -98,13 +104,15 @@ public class PlayerController : UnitController
 
     void Update()
     {
+        if (isDead) return;
+
         _moveInput = _input.actions["Move"].ReadValue<Vector2>();
 
         UpdateLookDirection();
 
-        if(Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            isAiming = !isAiming;
+            Die();
         }
 
         stateData.Cooling(Time.deltaTime);
@@ -116,6 +124,8 @@ public class PlayerController : UnitController
 
     void FixedUpdate()
     {
+        if (isDead) return;
+
         HandleMovement();
 
         HandleRotation();
@@ -138,7 +148,6 @@ public class PlayerController : UnitController
             isArmed = true;
             if (item.data is WeaponData weaponData && weaponController != null)
             {
-                Debug.Log("equipting");
                 weaponController.EquipWeapon(weaponData);
             }
         }
@@ -333,5 +342,57 @@ public class PlayerController : UnitController
 
         float targetWeight = ((isArmed || isAiming || isFiring) && !isDashing) ? 1f : 0f;
         aimRig.weight = Mathf.MoveTowards(aimRig.weight, targetWeight, Time.deltaTime * 5f);
+    }
+
+    public override bool TakeDamage(int damage, Vector3 hitPoint, bool isCrit)
+    {
+        if (stateData.hp <= 0) return false;
+        stateData.TakeDamage(damage);
+        PopupManager.Instance.ShowDamage(hitPoint, damage, isCrit);
+        if (stateData.hp <= 0)
+        {
+            Die();
+            return true;
+        }
+
+        return false;
+    }
+
+    public override void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+        if (_input != null && _input.currentActionMap != null)
+        {
+            _input.currentActionMap.Disable();
+        }
+        isFiring = false;
+        isAiming = false;
+        isScouting = false;
+        isDashing = false;
+
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool("IsDead", true);
+        }
+
+        if (aimRig != null)
+        {
+            aimRig.weight = 0f;
+        }
+    }
+
+    public void OnDeathAnimFinished()
+    {
+        if (_visual != null)
+        {
+            _visual.SetDissolve(false);
+        }
     }
 }
