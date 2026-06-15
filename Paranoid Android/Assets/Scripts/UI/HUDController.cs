@@ -14,44 +14,31 @@ public class HUDController : MonoBehaviour
     public Gradient overloadGradient;
 
     private PlayerStateData _stateData;
-    private bool _isInitialized;
 
-    private void Start()
+    public void Initialize(PlayerStateData stateData)
     {
-        TryInitialize();
+        Cleanup();
+        _stateData = stateData;
+        if (_stateData == null) return;
+        _stateData.OnHpChanged += OnHpChanged;
+        _stateData.OnLoadChanged += OnLoadChanged;
+        OnHpChanged(_stateData.hp, _stateData.maxHp);
+        OnLoadChanged(_stateData.currentLoad, _stateData.maxLoad);
     }
 
-    private void OnEnable()
+    public void Cleanup()
     {
-        TryInitialize();
-    }
-
-    private void OnDisable()
-    {
-        if (_isInitialized && _stateData != null)
+        if (_stateData != null)
         {
             _stateData.OnHpChanged -= OnHpChanged;
             _stateData.OnLoadChanged -= OnLoadChanged;
-            _isInitialized = false;
+            _stateData = null;
         }
     }
 
-    private void TryInitialize()
+    private void OnDestroy()
     {
-        if (_isInitialized) return;
-
-        if (PlayerController.Instance != null && PlayerController.Instance.stateData != null)
-        {
-            _stateData = PlayerController.Instance.stateData;
-
-            _stateData.OnHpChanged += OnHpChanged;
-            _stateData.OnLoadChanged += OnLoadChanged;
-
-            OnHpChanged(_stateData.hp, _stateData.maxHp);
-            OnLoadChanged(_stateData.currentLoad, _stateData.maxLoad);
-
-            _isInitialized = true;
-        }
+        Cleanup();
     }
 
     private void OnHpChanged(int currentHp, int maxHp)

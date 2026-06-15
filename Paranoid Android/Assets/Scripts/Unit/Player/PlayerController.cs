@@ -10,6 +10,10 @@ public class PlayerController : UnitController
 {
     public static PlayerController Instance { get; private set; }
 
+    private bool _isInitialized = false;
+
+    public Rigidbody rb;
+
     [Header("“∆∂Ø…Ë÷√")]
     public float dashSpeedMult = 3.5f;
     public float aimSpeedMult = 0.6f;
@@ -24,7 +28,7 @@ public class PlayerController : UnitController
     public CinemachineVirtualCamera vc;
     public LayerMask groundLayer;
     public WeaponController weaponController;
-    public PlayerStateData stateData = new();
+    [SerializeField] public PlayerStateData stateData;
     private PlayerInput _input;
     private PlayerVisual _visual;
 
@@ -66,45 +70,122 @@ public class PlayerController : UnitController
         Instance = this;
 
         base.Awake();
+        rb = GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.sleepThreshold = 0f;
         _visual = GetComponent<PlayerVisual>();
-        transposer = vc.GetCinemachineComponent<CinemachineFramingTransposer>();
-
         _input = GetComponent<PlayerInput>();
-        foreach (var item in _input.actions.actionMaps)
-        {
-            item.Disable();
-        }
-        _input.SwitchCurrentActionMap("Player");
-        _input.currentActionMap.Enable();
-        _input.actions["Aim"].performed += ctx => isAiming = true;
-        _input.actions["Aim"].canceled += ctx => isAiming = false;
-
-        _input.actions["Scout"].performed += ctx => isScouting = !isScouting;
-
-        _input.actions["Dash"].performed += ctx => TryDash();
-
-        stateData.OnSelectedChanged += OnSwitchSlot;
-
-        _input.actions["Fire"].performed += ctx =>
-        {
-            if (isArmed)
-            {
-                isFiring = true;
-            }
-        };
-        _input.actions["Fire"].canceled += ctx => isFiring = false;
-
     }
+
+    public void Initialize(PlayerStateData data, CinemachineVirtualCamera cam)
+    {
+        Cleanup();
+        stateData = data;
+        if (stateData != null)
+        {
+            stateData.OnSelectedChanged += OnSwitchSlot;
+        }
+
+        vc = cam;
+        if (vc != null)
+        {
+            vc.Follow = transform;
+            transposer = vc.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+
+        isDead = false;
+        isFiring = false;
+        isAiming = false;
+        isScouting = false;
+        isDashing = false;
+
+        if (_input != null)
+        {
+            foreach (var item in _input.actions.actionMaps)
+            {
+                item.Disable();
+            }
+            _input.SwitchCurrentActionMap("Player");
+            _input.currentActionMap.Enable();
+
+            BindInputActions();
+        }
+
+        _visual.SetDissolve(true, true);
+
+        _isInitialized = true;
+    }
+
+    private void BindInputActions()
+    {
+        if (_input == null) return;
+
+        _input.actions["Aim"].performed += OnAimPerformed;
+        _input.actions["Aim"].canceled += OnAimCanceled;
+        _input.actions["Scout"].performed += OnScoutPerformed;
+        _input.actions["Dash"].performed += OnDashPerformed;
+        _input.actions["Fire"].performed += OnFirePerformed;
+        _input.actions["Fire"].canceled += OnFireCanceled;
+    }
+
+    public void Cleanup()
+    {
+        if (!_isInitialized) return;
+        if (stateData != null)
+        {
+            stateData.OnSelectedChanged -= OnSwitchSlot;
+        }
+        if (_input != null)
+        {
+            _input.actions["Aim"].performed -= OnAimPerformed;
+            _input.actions["Aim"].canceled -= OnAimCanceled;
+            _input.actions["Scout"].performed -= OnScoutPerformed;
+            _input.actions["Dash"].performed -= OnDashPerformed;
+            _input.actions["Fire"].performed -= OnFirePerformed;
+            _input.actions["Fire"].canceled -= OnFireCanceled;
+            _input.currentActionMap?.Disable();
+        }
+
+        transposer = null;
+        vc = null;
+        _isInitialized = false;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+        Cleanup();
+    }
+
+
+
+    private void OnAimPerformed(InputAction.CallbackContext ctx) => isAiming = true;
+    private void OnAimCanceled(InputAction.CallbackContext ctx) => isAiming = false;
+    private void OnScoutPerformed(InputAction.CallbackContext ctx) => isScouting = !isScouting;
+    private void OnDashPerformed(InputAction.CallbackContext ctx) => TryDash();
+    private void OnFirePerformed(InputAction.CallbackContext ctx)
+    {
+        if (isArmed) isFiring = true;
+    }
+    private void OnFireCanceled(InputAction.CallbackContext ctx) => isFiring = false;
+
+
+
 
     void Update()
     {
+        if (isDead) return;
+
         _moveInput = _input.actions["Move"].ReadValue<Vector2>();
 
         UpdateLookDirection();
 
-        if(Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            isAiming = !isAiming;
+            Die();
         }
 
         stateData.Cooling(Time.deltaTime);
@@ -116,6 +197,8 @@ public class PlayerController : UnitController
 
     void FixedUpdate()
     {
+        if (isDead) return;
+
         HandleMovement();
 
         HandleRotation();
@@ -138,7 +221,6 @@ public class PlayerController : UnitController
             isArmed = true;
             if (item.data is WeaponData weaponData && weaponController != null)
             {
-                Debug.Log("equipting");
                 weaponController.EquipWeapon(weaponData);
             }
         }
@@ -187,7 +269,7 @@ public class PlayerController : UnitController
         yield return new WaitForSeconds(_dashDuration);
 
         _visual.SetElectric(0f);
-
+        rb.velocity = Vector3.zero;
         isDashing = false;
         isInvincible = false;
     }
@@ -238,7 +320,11 @@ public class PlayerController : UnitController
     {
         if (isDashing)
         {
-            UnitMove(_dashDirection, dashSpeedMult);
+            if (isDashing)
+            {
+                rb.velocity = _dashDirection * (moveSpeed * dashSpeedMult);
+                return;
+            }
             return;
         }
 
@@ -329,5 +415,57 @@ public class PlayerController : UnitController
 
         float targetWeight = ((isArmed || isAiming || isFiring) && !isDashing) ? 1f : 0f;
         aimRig.weight = Mathf.MoveTowards(aimRig.weight, targetWeight, Time.deltaTime * 5f);
+    }
+
+    public override bool TakeDamage(int damage, Vector3 hitPoint, bool isCrit)
+    {
+        if (stateData.hp <= 0) return false;
+        stateData.TakeDamage(damage);
+        PopupManager.Instance.ShowDamage(hitPoint, damage, isCrit);
+        if (stateData.hp <= 0)
+        {
+            Die();
+            return true;
+        }
+
+        return false;
+    }
+
+    public override void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+        if (_input != null && _input.currentActionMap != null)
+        {
+            _input.currentActionMap.Disable();
+        }
+        isFiring = false;
+        isAiming = false;
+        isScouting = false;
+        isDashing = false;
+
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool("IsDead", true);
+        }
+
+        if (aimRig != null)
+        {
+            aimRig.weight = 0f;
+        }
+    }
+
+    public void OnDeathAnimFinished()
+    {
+        if (_visual != null)
+        {
+            _visual.SetDissolve(false);
+        }
     }
 }

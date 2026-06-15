@@ -144,6 +144,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - ItemData
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f80b06e5bb8100446ad606b5f2ea1cf6
+    m_Address: GameSystem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fb3d5ba1b267cb642b74bc0f2bf11372
     m_Address: MiddleGena
     m_ReadOnly: 0

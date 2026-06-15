@@ -502,6 +502,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1544055378980026754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3161972358119217892}
+  m_Layer: 7
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3161972358119217892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544055378980026754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5258933315796134453}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2464240940237206755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,6 +1180,7 @@ GameObject:
   - component: {fileID: 6603081037824602514}
   - component: {fileID: 6395555642759938707}
   - component: {fileID: 6843819942527375754}
+  - component: {fileID: 4409036561550683137}
   m_Layer: 7
   m_Name: Blue Drone
   m_TagString: Untagged
@@ -1169,6 +1201,7 @@ Transform:
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3161972358119217892}
   - {fileID: 8547090790206258354}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1206,23 +1239,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
-  rotationSpeed: 15
   animator: {fileID: 0}
-  rb: {fileID: 0}
+  capsule: {fileID: 0}
   isMoving: 0
   isInvincible: 0
   maxHp: 60
   hp: 0
-  activateRadius: 5
-  detectRadius: 20
-  combatRadius: 10
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
   currentTarget: {fileID: 0}
   agent: {fileID: 0}
-  isAlert: 0
   lostPos: {x: 0, y: 0, z: 0}
+  detectRadius: 25
+  combatRadius: 7
+  damage: 10
+  DeathVFX: {fileID: 1738658161782828, guid: 59df56773d272824cb823b07f2311c51, type: 3}
+  activateRadius: 5
+  isAlert: 0
+  rb: {fileID: 0}
 --- !u!195 &4123573769323096950
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1293,9 +1328,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4877586757665599631}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 2
+  m_Drag: 0.1
+  m_AngularDrag: 0.5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1327,7 +1362,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1363,6 +1398,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectsToHide:
   - {fileID: 2677327254688965334}
+--- !u!114 &4409036561550683137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4877586757665599631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbad08555d557454487495dd1a064f54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPool: {fileID: 0}
+  firePoint: {fileID: 0}
+  bulletType: 0
+  unit: {fileID: 0}
+  fireRate: 4
+  bulletSpeed: 25
+  distance: 40
+  spreadAngle: 3.5
 --- !u!1 &5102664804843581707
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2082875467893863334}
   - component: {fileID: 550928603024715113}
   - component: {fileID: 2764009631326494777}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: foot_link_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3615306406648108499}
   - component: {fileID: 3456746867470095458}
   - component: {fileID: 7323325194112066808}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear_link_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 5121898545232219143}
   - component: {fileID: 1633448792475902336}
   - component: {fileID: 2641419651277094623}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 4832173452537085318}
   - component: {fileID: 872056644552509717}
   - component: {fileID: 6698035549314635844}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear_hold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 8243804608050305618}
   - component: {fileID: 6537175350619251683}
   - component: {fileID: 1216843551492640342}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body_inside_ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 5892121202569625641}
   - component: {fileID: 6317727636843933776}
   - component: {fileID: 3013910311155562006}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: eye_display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ GameObject:
   - component: {fileID: 289522035155617956}
   - component: {fileID: 8368014300642947624}
   - component: {fileID: 7878016254259386548}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body_door_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -596,7 +596,7 @@ GameObject:
   - component: {fileID: 3798924254875304736}
   - component: {fileID: 7160163642142287234}
   - component: {fileID: 8217308230867029585}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: front_ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -679,7 +679,7 @@ GameObject:
   - component: {fileID: 5868740200207233065}
   - component: {fileID: 5297843664311443329}
   - component: {fileID: 8888768376868603035}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -761,7 +761,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7840731043763564326}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ball_robot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -811,7 +811,7 @@ GameObject:
   - component: {fileID: 7819026865844051993}
   - component: {fileID: 6828610680120410508}
   - component: {fileID: 3404284852961984859}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: back_ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +894,7 @@ GameObject:
   - component: {fileID: 6772543495104928839}
   - component: {fileID: 1633230993384650482}
   - component: {fileID: 8328027453937131125}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: glass_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -977,7 +977,7 @@ GameObject:
   - component: {fileID: 3109085436781632180}
   - component: {fileID: 1002674975602382467}
   - component: {fileID: 7357042456199529954}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear_bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1061,7 +1061,7 @@ GameObject:
   - component: {fileID: 2528995734591346047}
   - component: {fileID: 6915471678073273889}
   - component: {fileID: 5873859216137834745}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear_link_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1143,7 +1143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8251461099925692164}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body_door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1178,7 +1178,7 @@ GameObject:
   - component: {fileID: 3320578610923584862}
   - component: {fileID: 1578896795164733022}
   - component: {fileID: 9160872302442780422}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: power_center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1261,7 +1261,7 @@ GameObject:
   - component: {fileID: 1438016395658146312}
   - component: {fileID: 7432293463501722158}
   - component: {fileID: 987769132580066011}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body_inside_VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1344,7 +1344,14 @@ GameObject:
   - component: {fileID: 5956566179175266721}
   - component: {fileID: 6134817606552886856}
   - component: {fileID: 1760190405249823100}
-  m_Layer: 0
+  - component: {fileID: 6995173863198326925}
+  - component: {fileID: -4189424796170685784}
+  - component: {fileID: -6791220699066653314}
+  - component: {fileID: 6087162438321954176}
+  - component: {fileID: 3140465002565570295}
+  - component: {fileID: -8371997887100593084}
+  - component: {fileID: 4653938816251042192}
+  m_Layer: 7
   m_Name: Gold Drone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1364,6 +1371,7 @@ Transform:
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4143039252762100809}
   - {fileID: 7840731043763564326}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1400,15 +1408,186 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc535c61166e58948a6e3fe9ea8577ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
-  rotationSpeed: 15
+  moveSpeed: 12
   animator: {fileID: 0}
-  rb: {fileID: 0}
+  capsule: {fileID: 0}
   isMoving: 0
   isInvincible: 0
   maxHp: 60
   hp: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentTarget: {fileID: 0}
+  agent: {fileID: 0}
+  lostPos: {x: 0, y: 0, z: 0}
+  detectRadius: 30
+  combatRadius: 13
+  damage: 10
+  DeathVFX: {fileID: 1738658161782828, guid: 59df56773d272824cb823b07f2311c51, type: 3}
+  activateRadius: 8
   isAlert: 0
+  rb: {fileID: 0}
+--- !u!195 &6995173863198326925
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6476785178523509531}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.6
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &-4189424796170685784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6476785178523509531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 1
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 11400000, guid: b292697e8b9f09942a22372bfdcdc3bf, type: 2}
+  mBehaviorSource:
+    behaviorName: Drone
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Target","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"IsAlert","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"LostPos","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Destinatoin","IsShared":true,"Vector3mValue":"(0,0,0)"}]}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
+--- !u!54 &-6791220699066653314
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6476785178523509531}
+  serializedVersion: 4
+  m_Mass: 3
+  m_Drag: 0.1
+  m_AngularDrag: 0.5
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &6087162438321954176
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6476785178523509531}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &3140465002565570295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6476785178523509531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c78af948052824d93c22c84c08dd65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SamplePoints: []
+  PermanentlyReveal: 0
+--- !u!114 &-8371997887100593084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6476785178523509531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dfbeda9b3b3aa04bbb897826b875157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectsToHide:
+  - {fileID: 4572636237320630594}
+--- !u!114 &4653938816251042192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6476785178523509531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbad08555d557454487495dd1a064f54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPool: {fileID: 0}
+  firePoint: {fileID: 4143039252762100809}
+  bulletType: 0
+  unit: {fileID: 0}
+  fireRate: 8
+  bulletSpeed: 35
+  distance: 45
+  spreadAngle: 3
 --- !u!1 &6503344704672971532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1420,7 +1599,7 @@ GameObject:
   - component: {fileID: 1415662024099988683}
   - component: {fileID: 4685687567812228207}
   - component: {fileID: 958197205526965465}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body_outside_VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1503,7 +1682,7 @@ GameObject:
   - component: {fileID: 2446611830235171387}
   - component: {fileID: 3421164594942118423}
   - component: {fileID: 1478494931350033335}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: foot_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1586,7 +1765,7 @@ GameObject:
   - component: {fileID: 8590407589109449004}
   - component: {fileID: 174819307378199485}
   - component: {fileID: 3770897399392286374}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear_VFX_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1669,7 +1848,7 @@ GameObject:
   - component: {fileID: 1556916536860750512}
   - component: {fileID: 3898286417126997568}
   - component: {fileID: 1099562827005871420}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: glass_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1752,7 +1931,7 @@ GameObject:
   - component: {fileID: 8671839132632314807}
   - component: {fileID: 7164069837672965339}
   - component: {fileID: 6351712330356395663}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: foot_link_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1825,6 +2004,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6964239165290026390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4143039252762100809}
+  m_Layer: 7
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4143039252762100809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6964239165290026390}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5956566179175266721}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7144412327483519878
 GameObject:
   m_ObjectHideFlags: 0
@@ -1836,7 +2046,7 @@ GameObject:
   - component: {fileID: 5234734367164893400}
   - component: {fileID: 4625836967389882629}
   - component: {fileID: 88165205596490281}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body_outside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1919,7 +2129,7 @@ GameObject:
   - component: {fileID: 6778495782798406543}
   - component: {fileID: 2294587949314680739}
   - component: {fileID: 8414030274426173159}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: back_fan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2002,7 +2212,7 @@ GameObject:
   - component: {fileID: 5197760897921022519}
   - component: {fileID: 1318194969949228450}
   - component: {fileID: 2595809255332663262}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear_bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2086,7 +2296,7 @@ GameObject:
   - component: {fileID: 4162533583476634242}
   - component: {fileID: 1230352831887388743}
   - component: {fileID: 4802949305074806090}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body_inside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2169,7 +2379,7 @@ GameObject:
   - component: {fileID: 5457067491715528455}
   - component: {fileID: 4923566425805184395}
   - component: {fileID: 7990760358939327763}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: foot_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2252,7 +2462,7 @@ GameObject:
   - component: {fileID: 1940132825760804759}
   - component: {fileID: 4186815801585747273}
   - component: {fileID: 4016041100626627717}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear_hold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2336,7 +2546,7 @@ GameObject:
   - component: {fileID: 6347983540528537829}
   - component: {fileID: 991899336058454559}
   - component: {fileID: 6853862037858075834}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear_VFX_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2419,7 +2629,7 @@ GameObject:
   - component: {fileID: 7228426526421061492}
   - component: {fileID: 1110946662189733027}
   - component: {fileID: 7358985576607396570}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body_door_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}

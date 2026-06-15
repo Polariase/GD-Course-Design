@@ -42,8 +42,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Dissolve_Level: 1.18
-    - Dissolve_Outline: 0.01
+    - Dissolve_Level: 4.13
+    - Dissolve_Outline: 0.094
     - Noise_Size: 54.56
     - _QueueControl: 0
     - _QueueOffset: 0

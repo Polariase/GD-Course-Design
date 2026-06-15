@@ -7,6 +7,7 @@ public class VirtualWeapon : MonoBehaviour
     public MyPool.BulletPool bulletPool;
     public Transform firePoint;
     public BulletType bulletType = BulletType.Normal;
+    public EnemyController unit;
 
     public float fireRate = 4f;
     public float bulletSpeed = 15f;
@@ -17,8 +18,13 @@ public class VirtualWeapon : MonoBehaviour
 
     private void Awake()
     {
-        bulletPool = PoolManager.Instance.bullet;
         firePoint = transform.Find("FirePoint");
+        unit = GetComponent<EnemyController>();
+    }
+
+    private void Start()
+    {
+        bulletPool = PoolManager.Instance.bullet;
     }
 
     void Update()
@@ -35,7 +41,21 @@ public class VirtualWeapon : MonoBehaviour
     {
         if (!CanFire() || firePoint == null || target == null) return;
 
-        Vector3 fireDirection = (target.position - firePoint.position).normalized;
+        Vector3 targetPos;
+
+        UnitController targetUnit = target.gameObject.GetComponentInParent<UnitController>();
+
+        if (targetUnit != null)
+        {
+            targetPos = targetUnit.HitPoint(); 
+        }
+        else
+        {
+            Debug.LogWarning("Target does not have UnitController, using target's position instead.");
+            targetPos = target.position;
+        }
+
+        Vector3 fireDirection = (targetPos - firePoint.position).normalized;
 
         if (fireDirection == Vector3.zero) fireDirection = firePoint.forward;
 
@@ -45,7 +65,9 @@ public class VirtualWeapon : MonoBehaviour
         Quaternion finalBulletRotation = baseRotation * Quaternion.Euler(0, randomSpread, 0);
 
         string typeKey = bulletType.ToKey();
-        bulletPool.GetAndSet(typeKey, firePoint.position, finalBulletRotation, bulletSpeed, distance);
+
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        bulletPool.GetAndSet(typeKey, firePoint.position, finalBulletRotation, bulletSpeed, distance, enemyLayer, unit.damage, null);
 
         _fireTimer = (repeating ? 0.5f : 1f) / fireRate;
     }

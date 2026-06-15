@@ -1,0 +1,81 @@
+using Cinemachine;
+using UnityEngine;
+
+public enum GameState
+{
+    Entry,
+    Shelter,
+    Exploration
+}
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager Instance { get; private set; }
+
+    public GameState currentGameState = GameState.Entry;
+    [SerializeField] private PlayerStateData globalPlayerStateData;
+    [SerializeField] private GameObject playerPrefab;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) { Destroy(this); return; }
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        GameSceneManager.Instance.OnSceneLoadCompleted += HandleSceneChanged;
+    }
+
+    private void OnDestroy()
+    {
+        if (GameSceneManager.Instance != null)
+            GameSceneManager.Instance.OnSceneLoadCompleted -= HandleSceneChanged;
+    }
+
+    public void StartGame()
+    {
+        GameSceneManager.Instance.LoadScene("ShelterScene");
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+
+    private void HandleSceneChanged(string sceneName)
+    {
+        if (sceneName == "EntryScene")
+        {
+            currentGameState = GameState.Entry;
+            UIManager.Instance.SetUIMode(GameState.Entry);
+        }
+        else if (sceneName == "ShelterScene")
+        {
+            currentGameState = GameState.Shelter;
+            SpawnPlayer();
+            UIManager.Instance.SetUIMode(GameState.Shelter);
+        }
+    }
+
+    private void SpawnPlayer()
+    {
+        if (PlayerController.Instance != null) return;
+
+        GameObject spawnPoint = GameObject.FindWithTag("SpawnPoint");
+        Vector3 spawnPos = spawnPoint != null ? spawnPoint.transform.position : Vector3.zero;
+        Quaternion spawnRot = spawnPoint != null ? spawnPoint.transform.rotation : Quaternion.identity;
+        GameObject playerGO = Instantiate(playerPrefab, spawnPos, spawnRot);
+        PlayerController newPlayer = playerGO.GetComponent<PlayerController>();
+        if (GameObject.FindWithTag("TopdownCam")?.GetComponent<CinemachineVirtualCamera>() is CinemachineVirtualCamera topDownCam)
+        {
+            newPlayer.Initialize(globalPlayerStateData, topDownCam);
+        }
+        UIManager.Instance.Initialize(newPlayer);
+    }
+}

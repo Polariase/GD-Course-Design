@@ -10,13 +10,14 @@ namespace MyPool
     {
         protected override void OnGet(GameObject obj) { }
 
-        public GameObject GetAndSet(string key, Vector3 pos, Quaternion rot, float bulletSpeed, float distance)
+        public GameObject GetAndSet(string key, Vector3 pos, Quaternion rot, float bulletSpeed,
+            float distance,int shooterLayer,int damage,IHittable target,float critChance = 0.1f)
         {
             GameObject obj = Get(key);
             obj.transform.SetPositionAndRotation(pos, rot);
             if (obj.TryGetComponent<Bullet>(out var bullet))
             {
-                bullet.Init(bulletSpeed, distance);
+                bullet.Init(bulletSpeed, distance,shooterLayer,damage,target,critChance);
             }
             obj.SetActive(true);
             return obj;

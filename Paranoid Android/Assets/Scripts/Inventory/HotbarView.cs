@@ -7,18 +7,20 @@ public class HotbarView : MonoBehaviour
 
     private InventoryData _data;
     private IInventoryHandler _handler;
+    private PlayerStateData _stateData;
 
     public void Initialize(InventoryData data, IInventoryHandler handler)
     {
         _data = data;
         _handler = handler;
         _display.Setup(_data, _handler, _data.CurrentCapacity, 0);
-        PlayerController.Instance.stateData.OnSelectedChanged += UpdateHighlight;
+        _stateData = PlayerController.Instance.stateData;
+        _stateData.OnSelectedChanged += UpdateHighlight;
     }
 
     public void OnDestroy()
     {
-        PlayerController.Instance.stateData.OnSelectedChanged -= UpdateHighlight;
+        _stateData.OnSelectedChanged -= UpdateHighlight;
     }
 
     public void UpdateHighlight(int index, InventoryItem item)

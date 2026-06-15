@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 public enum BulletType
@@ -58,12 +59,15 @@ public class WeaponController : MonoBehaviour
     public float baseSpread = 5f;
     public float aimSpreadMult = 0.4f;
     public float aimSpeed = 1f;
-    public int damage;
+    public int damage = 10;
     public float bulletSpeed;
     public float distance;
     public float aimWeight;
+    public float critChance = 0.1f;
     public AnimationCurve aimCurve;
 
+    public bool isTargetLocked;
+    public IHittable currentUpdateTarget;
     private float _aimTimer;
     private float _fireTimer;
 
@@ -71,6 +75,7 @@ public class WeaponController : MonoBehaviour
     void Awake()
     {
         _player = GetComponentInParent<PlayerController>();
+        bulletPool = PoolManager.Instance.bullet;
     }
 
     private void Start()
@@ -81,6 +86,9 @@ public class WeaponController : MonoBehaviour
     void Update()
     {
         HandleAimWeight();
+
+        UpdateTargetLockStatus();
+
         if (_fireTimer > 0) _fireTimer -= Time.deltaTime;
         if (_player.CanFire && _player.isFiring)
         {
@@ -91,6 +99,21 @@ public class WeaponController : MonoBehaviour
             int currentIndex = (int)bulletType;
             int nextIndex = (currentIndex + 1) % 7;
             bulletType = (BulletType)nextIndex;
+        }
+    }
+
+    private void UpdateTargetLockStatus()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray, out RaycastHit aimHit, 100f, LayerMask.GetMask("Enemy")))
+        {
+            currentUpdateTarget = aimHit.collider.GetComponentInParent<IHittable>();
+            isTargetLocked = (currentUpdateTarget != null);
+        }
+        else
+        {
+            currentUpdateTarget = null;
+            isTargetLocked = false;
         }
     }
 
@@ -199,6 +222,12 @@ public class WeaponController : MonoBehaviour
         Vector3 targetWorldPos = _player.mouseWorldPosition;
         targetWorldPos.y = firePoint.position.y;
 
+        IHittable aimedTarget = currentUpdateTarget;
+        if (aimedTarget != null)
+        {
+            targetWorldPos = aimedTarget.HitPoint();
+        }
+
         Vector3 mouseDirection = (targetWorldPos - firePoint.position).normalized;
 
         Vector3 baseDirection;
@@ -209,7 +238,8 @@ public class WeaponController : MonoBehaviour
         }
         else
         {
-            float angle = Vector3.Angle(playerForward, mouseDirection);
+            Vector3 flatMouseDir = new Vector3(mouseDirection.x, 0f, mouseDirection.z).normalized;
+            float angle = Vector3.Angle(playerForward, flatMouseDir);
             if (angle <= 45f)
             {
                 baseDirection = mouseDirection;
@@ -227,7 +257,12 @@ public class WeaponController : MonoBehaviour
         Quaternion finalBulletRotation = lookRotation * Quaternion.Euler(0, randomSpread, 0);
 
         string typeKey = bulletType.ToKey();
-        bulletPool.GetAndSet(typeKey, firePoint.position, finalBulletRotation, bulletSpeed, distance);
+
+        
+
+        int playerLayer = LayerMask.NameToLayer("Player");
+
+        bulletPool.GetAndSet(typeKey, firePoint.position, finalBulletRotation, bulletSpeed, distance, playerLayer, damage, aimedTarget, critChance);
 
         _stateData.Overload(loadPerShot);
     }

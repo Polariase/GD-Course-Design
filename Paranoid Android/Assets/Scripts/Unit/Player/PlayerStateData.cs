@@ -19,8 +19,8 @@ public class PlayerStateData
     }
 
     //½ÇÉ«ÊôÐÔ
-    public int hp = 100;
     public int maxHp = 100;
+    public int hp = 100;
     public Action<int, int> OnHpChanged;
 
     public float maxLoad = 100f;

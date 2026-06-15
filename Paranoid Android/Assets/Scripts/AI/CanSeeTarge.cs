@@ -6,23 +6,21 @@ using BehaviorDesigner.Runtime.Tasks;
 public class CanSeeTarge : Conditional
 {
     public SharedTransform target;
-    public SharedVector3 lostPos;
-    private PatrolDroneController drone;
+    private EnemyController unit;
 
     public override void OnAwake()
     {
-        drone = GetComponent<PatrolDroneController>();
+        unit = GetComponent<EnemyController>();
     }
 
     public override TaskStatus OnUpdate()
     {
-        if (drone != null && drone.isAlert && drone.currentTarget != null)
+        if (unit != null && unit.Ready && unit.currentTarget != null)
         {
-            target.Value = drone.currentTarget;
+            target.Value = unit.currentTarget;
             return TaskStatus.Success;
         }
         target.Value = null;
-        lostPos = drone.lostPos;
         return TaskStatus.Failure;
     }
 }

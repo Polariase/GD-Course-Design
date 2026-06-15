@@ -5,29 +5,28 @@ public abstract class UnitController : MonoBehaviour, IHittable
 {
     [Header("移动设置")]
     public float moveSpeed = 6f;
-    public float rotationSpeed = 15f;
 
     [Header("引用")]
     public Animator animator;
-    public Rigidbody rb;
     public CapsuleCollider capsule;
 
+    public bool isDead;
     public bool isMoving;
     public bool isInvincible;
 
     protected virtual void Awake()
     {
-        rb = GetComponent<Rigidbody>();
         if (animator == null) animator = GetComponent<Animator>();
-        capsule = GetComponent<CapsuleCollider>();
+        capsule = GetComponentInChildren<CapsuleCollider>();
     }
 
-    public virtual bool Hit(float damage, RaycastHit hitInfo)
+    public virtual bool Hit(int damage, Vector3 hitPoint, bool isCrit)
     {
-        return TakeDamage(damage);
+        if (isInvincible) return false;
+        return TakeDamage(damage,hitPoint,isCrit);
     }
 
-    public virtual bool TakeDamage(float damage)
+    public virtual bool TakeDamage(int damage,Vector3 hitPoint,bool isCrit)
     {
         return false;
     }
@@ -35,5 +34,10 @@ public abstract class UnitController : MonoBehaviour, IHittable
     public Vector3 HitPoint()
     {
         return capsule.bounds.center;
+    }
+
+    public virtual void Die()
+    {
+        return;
     }
 }

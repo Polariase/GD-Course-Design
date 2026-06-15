@@ -2,9 +2,9 @@ using UnityEngine;
 
 public interface IHittable
 {
-    bool Hit(float damage, RaycastHit hitInfo);
+    bool Hit(int damage, Vector3 hitPoint, bool isCrit);
 
-    bool TakeDamage(float damage);
+    bool TakeDamage(int damage, Vector3 hitPoint, bool isCrit);
 
     Vector3 HitPoint();
 }

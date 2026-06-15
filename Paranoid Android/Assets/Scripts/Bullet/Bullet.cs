@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     [Header("子弹设置")]
     public float speed = 15f;
     public float maxDistance = 20f;
-    public LayerMask hitLayer;
+    public int damage = 1;
     public bool UseFirePointRotation;
     public float hitOffset = 0f;
     public Vector3 rotationOffset = new(0, 0, 0);
@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour
     private string _poolKey;
     private float _lifeTime = 0f;
     private bool _isHit = false;
+    private LayerMask _hitLayer;
     private int _targetLayer;
 
     [Header("引用")]
@@ -28,6 +29,10 @@ public class Bullet : MonoBehaviour
     private BulletPool _pool;
     private ParticleSystem[] _detachedPS;
 
+    public IHittable recordedTarget = null; // 发射时准星锁定的敌人
+    public float critRate = 0f;            // 暴击率
+    public const int critMultiplier = 2;      // 暴击伤害倍率
+
 
     private void Awake()
     {
@@ -40,7 +45,6 @@ public class Bullet : MonoBehaviour
                 _detachedPS[i] = detachedObj[i].GetComponent<ParticleSystem>();
         }
         _poolKey = GetComponent<PoolItem>().key;
-        _targetLayer = LayerMask.NameToLayer("Enemy");
     }
 
     void OnEnable()
@@ -62,7 +66,7 @@ public class Bullet : MonoBehaviour
             return;
         float moveStep = speed * Time.deltaTime;
         Vector3 direction = transform.forward;
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, moveStep + 0.1f, hitLayer))
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, moveStep + 0.1f, _hitLayer))
         {
             HandleHit(hitInfo);
             return;
@@ -78,10 +82,21 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    public void Init(float bulletSpeed, float maxDistance)
+    public void Init(float bulletSpeed, float maxDistance,int shooterLayer,int baseDamage, IHittable currentAimTarget, float critChance = 0.1f)
     {
         speed = bulletSpeed;
         this.maxDistance = maxDistance;
+        gameObject.layer = shooterLayer;
+        damage = baseDamage;
+        recordedTarget = currentAimTarget;
+        critRate = critChance;
+        _targetLayer = shooterLayer == LayerMask.NameToLayer("Player") ? LayerMask.NameToLayer("Enemy") : LayerMask.NameToLayer("Player");
+
+        int targetMask = 1 << _targetLayer;
+        int defaultMask = 1 << LayerMask.NameToLayer("Default");
+        int groundMask = 1 << LayerMask.NameToLayer("Ground");
+
+        _hitLayer = targetMask | defaultMask | groundMask;
     }
 
     void HandleHit(RaycastHit hit)
@@ -91,8 +106,27 @@ public class Bullet : MonoBehaviour
         if (lightSource != null) lightSource.enabled = false;
         if (projectilePS != null) projectilePS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
+        bool isCrit = false;
+        int tLayer = hit.collider.gameObject.layer;
+        IHittable currentTarget = hit.collider.GetComponentInParent<IHittable>();
+
+        if (currentTarget != null && tLayer == _targetLayer)
+        {
+            if (recordedTarget != null && currentTarget == recordedTarget)
+            {
+                isCrit = true;
+            }
+            else if (Random.value <= critRate)
+            {
+                isCrit = true;
+            }
+
+            int finalDamage = isCrit ? (damage * critMultiplier) : damage;
+            currentTarget.Hit(finalDamage, hit.point, isCrit);
+        }
+
         // 让特效贴合碰撞面的法线
-        if(hitObj != null)
+        if (hitObj != null)
         {
             Vector3 pos = hit.point + hit.normal * hitOffset;
             hitObj.transform.position = pos;
@@ -105,7 +139,7 @@ public class Bullet : MonoBehaviour
             else
                 hitObj.transform.LookAt(hit.point + hit.normal);
 
-            if (hit.collider.gameObject.layer == _targetLayer)
+            if (isCrit)
             {
                 // 命中目标触发完整效果
                 if (hitPS != null) hitPS.Play();
@@ -135,6 +169,7 @@ public class Bullet : MonoBehaviour
 
     void ReturnToPool()
     {
+        recordedTarget = null;
         if (_pool != null)
         {
             _pool.Release(gameObject, _poolKey);

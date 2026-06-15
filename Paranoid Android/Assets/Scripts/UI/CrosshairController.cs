@@ -16,19 +16,24 @@ public class CrosshairController : MonoBehaviour
     public PlayerController pc;
     public WeaponController weapon;
     public Gradient spreadGradient;
+    public float rotateSpeed = 300f;
 
-    [SerializeField] private float _minSpread = 2f;
-    [SerializeField] private float _maxSpread = 100f;
-    [SerializeField] private float _smoothTime = 0.1f;
+    private float _minSpread = 2f;
+    private float _maxSpread = 100f;
+    private float _smoothTime = 0.1f;
+    private float _currentRotationZ = 0f;
     private float _currentSpreadVelocity;
     private float _visualSpread;
     private PlayerInput _input;
-    
 
-    private void Start()
+    public void Initialize(PlayerController player)
     {
+        pc = player;
+        if (pc == null) return;
+
         mainCamera = Camera.main;
-        _input = PlayerController.Instance.GetComponent<PlayerInput>();
+        weapon = pc.GetComponentInChildren<WeaponController>();
+        _input = pc.GetComponent<PlayerInput>();
     }
 
     private void LateUpdate()
@@ -44,6 +49,14 @@ public class CrosshairController : MonoBehaviour
         // 更新准星根位置到鼠标位置
         Vector2 mousePos = _input.actions["Look"].ReadValue<Vector2>();
         crosshairRoot.position = mousePos;
+
+        //处理准星旋转
+        float targetRotationZ = weapon.isTargetLocked ? 45f : 0f;
+        _currentRotationZ = Mathf.MoveTowardsAngle(_currentRotationZ, targetRotationZ, rotateSpeed * Time.deltaTime);
+        if (lines != null)
+        {
+            lines.localRotation = Quaternion.Euler(0, 0, _currentRotationZ);
+        }
 
         // 获取落点和扩散角
         Vector3 impactPoint = pc.mouseWorldPosition;

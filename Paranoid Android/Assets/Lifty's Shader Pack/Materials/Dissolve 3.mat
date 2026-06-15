@@ -87,8 +87,8 @@ Material:
     m_Ints: []
     m_Floats:
     - Cutoff: -1
-    - Dissolve_Level: -0.91
-    - Dissolve_Outline: -0.088
+    - Dissolve_Level: -1.06
+    - Dissolve_Outline: 0.074
     - Noise_Size: 46
     - _AlphaClip: 0
     - _Blend: 0
