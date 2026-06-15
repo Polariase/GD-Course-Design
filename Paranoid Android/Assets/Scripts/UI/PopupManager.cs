@@ -9,6 +9,7 @@ public class PopupManager : MonoBehaviour
     public Transform popupCanvas;
 
     public string damageTextKey = "DamageText";
+    public string interactPromptKey = "InteractPrompt";
 
     private void Awake()
     {
@@ -28,5 +29,19 @@ public class PopupManager : MonoBehaviour
         // Ëæ»úÆ«ÒÆ·ÀÖ¹ÖØµþ
         Vector3 finalPos = worldPosition + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(0.2f, 0.4f), Random.Range(-0.2f, 0.2f));
         popupPool.GetAndSet(damageTextKey, finalPos, damageAmount, isCrit);
+    }
+
+    public GameObject ShowInteractPrompt(Vector3 targetWorldPos, float heightOffset = 1.5f)
+    {
+        if (popupPool == null) return null;
+        Vector3 spawnPos = targetWorldPos + Vector3.up * heightOffset;
+        GameObject promptGo = popupPool.Get(interactPromptKey, spawnPos);
+
+        return promptGo;
+    }
+
+    public void HideInteractPrompt(GameObject promptGo)
+    {
+        popupPool.Release(promptGo, interactPromptKey);
     }
 }

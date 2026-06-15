@@ -7,7 +7,11 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     public InventoryPanel inventoryPanel;
+    public LoadingPanel loadingPanel;
+
     public CrosshairController crosshair;
+    public HUDController hud;
+
     private readonly Stack<BasePanel> _panelStack = new();
     private PlayerStateData _playerState;
     private PlayerInput _input;
@@ -25,14 +29,46 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void SetUIMode(GameState state)
     {
-        _pc = PlayerController.Instance;
-        _input = _pc.GetComponent<PlayerInput>();
-        _playerState = _pc.stateData;
-        _pc.OnArmed += UpdateCursorState;
+        switch (state)
+        {
+            case GameState.Entry:
+                hud.gameObject.SetActive(false);
+                inventoryPanel.gameObject.SetActive(false);
+                ApplyCursorState(true, CursorLockMode.None, false);
+                break;
 
-        BindInputs();
+            case GameState.Shelter:
+            case GameState.Exploration:
+                hud.gameObject.SetActive(true);
+                if (_pc != null)
+                {
+                    UpdateCursorState(_pc.isArmed);
+                }
+                else
+                {
+                    ApplyCursorState(true, CursorLockMode.None, false);
+                }
+                inventoryPanel.gameObject.SetActive(true);
+                break;
+        }
+        Back();
+    }
+
+    public void ShowLoading(bool state)
+    {
+        if (loadingPanel != null)
+        {
+            if (state)
+            {
+                loadingPanel.Open();
+            }
+            else
+            {
+                loadingPanel.Close();
+            }
+        }
     }
 
     public void OpenPanel(BasePanel panel)
@@ -127,11 +163,32 @@ public class UIManager : MonoBehaviour
             Back();
     }
 
-    private void OnDestroy()
+    public void Initialize(PlayerController player)
+    {
+        Cleanup();
+        _pc = player;
+        if (_pc == null) return;
+        _input = _pc.GetComponent<PlayerInput>();
+        _playerState = _pc.stateData;
+        _pc.OnArmed += UpdateCursorState;
+        BindInputs();
+
+        hud.Initialize(_pc.stateData);
+        crosshair.Initialize(_pc);
+        UpdateCursorState(_pc.isArmed);
+    }
+
+    private void Cleanup()
     {
         if (_pc != null)
+        {
             _pc.OnArmed -= UpdateCursorState;
-
+        }
         UnbindInputs();
+    }
+
+    private void OnDestroy()
+    {
+        Cleanup();
     }
 }

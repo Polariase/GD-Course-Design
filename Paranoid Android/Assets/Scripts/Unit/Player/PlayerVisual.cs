@@ -36,7 +36,6 @@ public class PlayerVisual : MonoBehaviour
         _burnIntensityID = Shader.PropertyToID(burnIntensityName);
         _dissolveLevelID = Shader.PropertyToID(dissolveLevelName);
 
-        SetDissolve(true);
         SetElectric(0f);
     }
 
@@ -62,20 +61,20 @@ public class PlayerVisual : MonoBehaviour
         playerRenderer.SetPropertyBlock(_mpb);
     }
 
-    public void SetDissolve(bool show)
+    public void SetDissolve(bool show, bool force = false)
     {
         if (_dissolveCoroutine != null)
         {
             StopCoroutine(_dissolveCoroutine);
         }
 
-        _dissolveCoroutine = StartCoroutine(DissolveRoutine(show));
+        _dissolveCoroutine = StartCoroutine(DissolveRoutine(show, force));
     }
 
-    private IEnumerator DissolveRoutine(bool show)
+    private IEnumerator DissolveRoutine(bool show, bool force)
     {
         playerRenderer.GetPropertyBlock(_mpb);
-        float startValue = _mpb.GetFloat(_dissolveLevelID);
+        float startValue = force ? (show ? DISSOLVE_HIDDEN : DISSOLVE_SHOWN) : _mpb.GetFloat(_dissolveLevelID);
 
         float targetValue = show ? DISSOLVE_SHOWN : DISSOLVE_HIDDEN;
         float elapsed = 0f;

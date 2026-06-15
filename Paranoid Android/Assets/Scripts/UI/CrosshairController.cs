@@ -25,12 +25,15 @@ public class CrosshairController : MonoBehaviour
     private float _currentSpreadVelocity;
     private float _visualSpread;
     private PlayerInput _input;
-    
 
-    private void Start()
+    public void Initialize(PlayerController player)
     {
+        pc = player;
+        if (pc == null) return;
+
         mainCamera = Camera.main;
-        _input = PlayerController.Instance.GetComponent<PlayerInput>();
+        weapon = pc.GetComponentInChildren<WeaponController>();
+        _input = pc.GetComponent<PlayerInput>();
     }
 
     private void LateUpdate()

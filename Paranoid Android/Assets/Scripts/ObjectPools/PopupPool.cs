@@ -37,5 +37,13 @@ namespace MyPool
 
             return obj;
         }
+
+        public GameObject Get(string key,Vector3 pos)
+        {
+            GameObject go = Get(key);
+            go.transform.position = pos;
+            go.SetActive(true);
+            return go;
+        }
     }
 }

@@ -133,15 +133,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a3dcab8a1156a2243bd5d687e0a58eaa, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 25602e8292f58e943a2e03a6c63162f6, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -180,9 +180,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5978129880485033495}
   - {fileID: 1476580414972380680}
   - {fileID: 5238498789936728311}
+  - {fileID: 5978129880485033495}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -214,8 +214,8 @@ MonoBehaviour:
   iconImage: {fileID: 978318273430332706}
   borderImage: {fileID: 3505499733548701244}
   countText: {fileID: 877263950269921121}
-  normalColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-  highlightColor: {r: 0.62345386, g: 0.91823894, b: 0.802, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.41194963, g: 1, b: 0.67223376, a: 1}
 --- !u!1 &2887385274831392830
 GameObject:
   m_ObjectHideFlags: 0

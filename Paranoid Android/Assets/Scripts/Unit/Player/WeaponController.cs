@@ -75,6 +75,7 @@ public class WeaponController : MonoBehaviour
     void Awake()
     {
         _player = GetComponentInParent<PlayerController>();
+        bulletPool = PoolManager.Instance.bullet;
     }
 
     private void Start()
