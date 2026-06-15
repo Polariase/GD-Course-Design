@@ -32,6 +32,13 @@ public abstract class BasePanel : MonoBehaviour
 
     public virtual void Close()
     {
+        if (!gameObject.activeInHierarchy)
+        {
+            canvasGroup.alpha = 0;
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.interactable = false;
+            return;
+        }
         StopAllCoroutines();
         isOpen = false;
 

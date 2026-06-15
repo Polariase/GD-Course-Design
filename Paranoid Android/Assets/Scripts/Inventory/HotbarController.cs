@@ -7,18 +7,56 @@ public class HotbarController : BaseInventoryController
     [SerializeField] private HotbarView _hotbarView;
     private PlayerStateData stateData;
 
-    private void Start()
+    private bool _isInitialized = false;
+
+    private void Awake()
     {
+        CreateInventoryData();
+    }
+
+    public void CreateInventoryData()
+    {
+        if (inventoryData != null) return;
         inventoryData ??= new InventoryData(_hotbarSize);
-
         inventoryData.filter = IsValidHotbarItem;
-
-        _hotbarView.Initialize(inventoryData, this);
-
-        stateData = PlayerController.Instance.stateData;
-
-        PlayerController.Instance.GetComponent<PlayerInput>().actions["SwitchSlot"].performed += OnSwitchInput;
         inventoryData.OnSlotChanged += ValidateCurrentSelection;
+    }
+
+    public void Initialize(PlayerController pc)
+    {
+        Cleanup();
+        if (inventoryData == null) CreateInventoryData();
+
+        stateData = pc.stateData;
+        PlayerInput input = pc.GetComponent<PlayerInput>();
+        if (input != null)
+        {
+            input.actions["SwitchSlot"].performed += OnSwitchInput;
+        }
+        _hotbarView.Initialize(inventoryData, this, stateData);
+        _isInitialized = true;
+    }
+
+    public void Cleanup()
+    {
+        if (!_isInitialized) return;
+        if (PlayerController.Instance != null)
+        {
+            var input = PlayerController.Instance.GetComponent<PlayerInput>();
+            if (input != null)
+            {
+                input.actions["SwitchSlot"].performed -= OnSwitchInput;
+            }
+        }
+
+        stateData = null;
+        _isInitialized = false;
+    }
+
+    private void OnDestroy()
+    {
+        Cleanup();
+        inventoryData.OnSlotChanged -= ValidateCurrentSelection;
     }
 
     private void OnSwitchInput(InputAction.CallbackContext ctx)
@@ -76,14 +114,5 @@ public class HotbarController : BaseInventoryController
     {
         InventoryItem item = inventoryData.GetItem(index);
         if (item == null) return;
-    }
-
-    private void OnDestroy()
-    {
-        if (PlayerController.Instance != null)
-        {
-            PlayerController.Instance.GetComponent<PlayerInput>().actions["SwitchSlot"].performed -= OnSwitchInput;
-        }
-        inventoryData.OnSlotChanged -= ValidateCurrentSelection;
     }
 }

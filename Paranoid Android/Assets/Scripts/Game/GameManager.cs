@@ -58,8 +58,18 @@ public class GameManager : MonoBehaviour
         else if (sceneName == "ShelterScene")
         {
             currentGameState = GameState.Shelter;
+            globalPlayerStateData.ClearAllSubscribers();
+            globalPlayerStateData.ResetStatus(true);
             SpawnPlayer();
             UIManager.Instance.SetUIMode(GameState.Shelter);
+        }
+        else if(sceneName == "ExplorationScene")
+        {
+            currentGameState = GameState.Exploration;
+            globalPlayerStateData.ClearAllSubscribers();
+            globalPlayerStateData.ResetStatus(true);
+            SpawnPlayer();
+            UIManager.Instance.SetUIMode(GameState.Exploration);
         }
     }
 

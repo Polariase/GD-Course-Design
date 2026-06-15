@@ -11,6 +11,24 @@ public class PlayerStateData
     public InventoryItem currentSelectedItem;
     public Action<int, InventoryItem> OnSelectedChanged;
 
+    public void ClearAllSubscribers()
+    {
+        OnSelectedChanged = null;
+        OnHpChanged = null;
+        OnLoadChanged = null;
+    }
+
+    public void ResetStatus(bool heal)
+    {
+        if (heal)
+            hp = maxHp;
+        currentLoad = 0f;
+        overloaded = false;
+        currentSelectedIndex = 0;
+        currentSelectedItem = null;
+        _coolingTimer = 0f;
+    }
+
     public void UpdateSelection(int index,InventoryItem newItem)
     {
         currentSelectedIndex = index;

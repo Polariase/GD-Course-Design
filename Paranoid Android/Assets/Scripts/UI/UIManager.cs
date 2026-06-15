@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
 
     public InventoryPanel inventoryPanel;
     public LoadingPanel loadingPanel;
+    public PausePanel pausePanel;
+    public DeathPanel deathPanel;
 
     public CrosshairController crosshair;
     public HUDController hud;
@@ -54,6 +56,15 @@ public class UIManager : MonoBehaviour
                 break;
         }
         Back();
+    }
+
+    public void ShowDeathPanel()
+    {
+        Back();
+        if (deathPanel != null)
+        {
+            OpenPanel(deathPanel);
+        }
     }
 
     public void ShowLoading(bool state)
@@ -139,14 +150,28 @@ public class UIManager : MonoBehaviour
         _input.actions["Player/Inventory"].performed += OnInventoryPerformed;
         _input.actions["UI/Inventory"].performed += OnInventoryPerformed;
         _input.actions["Cancel"].performed += OnCancelPerformed;
+        _input.actions["Pause"].performed += OnPausePerformed;
     }
 
     private void UnbindInputs()
     {
         if (_input == null) return;
 
-        _input.actions["Inventory"].performed -= OnInventoryPerformed;
+        _input.actions["Player/Inventory"].performed -= OnInventoryPerformed;
+        _input.actions["UI/Inventory"].performed -= OnInventoryPerformed;
         _input.actions["Cancel"].performed -= OnCancelPerformed;
+        _input.actions["Pause"].performed -= OnPausePerformed;
+    }
+
+    private void OnPausePerformed(InputAction.CallbackContext ctx)
+    {
+        if (GameManager.Instance.currentGameState != GameState.Entry)
+        {
+            if (pausePanel != null && _panelStack.Count == 0)
+            {
+                OpenPanel(pausePanel);
+            }
+        }
     }
 
     private void OnInventoryPerformed(InputAction.CallbackContext ctx)
@@ -173,7 +198,7 @@ public class UIManager : MonoBehaviour
         _pc.OnArmed += UpdateCursorState;
         BindInputs();
 
-        hud.Initialize(_pc.stateData);
+        hud.Initialize(_pc);
         crosshair.Initialize(_pc);
         UpdateCursorState(_pc.isArmed);
     }

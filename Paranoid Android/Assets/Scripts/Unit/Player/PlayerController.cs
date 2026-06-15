@@ -467,5 +467,15 @@ public class PlayerController : UnitController
         {
             _visual.SetDissolve(false);
         }
+        StartCoroutine(ShowDeathPanelDelayRoutine());
+    }
+
+    private IEnumerator ShowDeathPanelDelayRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowDeathPanel();
+        }
     }
 }

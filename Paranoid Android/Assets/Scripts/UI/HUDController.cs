@@ -12,18 +12,20 @@ public class HUDController : MonoBehaviour
     public Image overloadFill;
     public TextMeshProUGUI overloadText;
     public Gradient overloadGradient;
+    public HotbarController hotbar;
 
     private PlayerStateData _stateData;
 
-    public void Initialize(PlayerStateData stateData)
+    public void Initialize(PlayerController pc)
     {
         Cleanup();
-        _stateData = stateData;
+        _stateData = pc.stateData;
         if (_stateData == null) return;
         _stateData.OnHpChanged += OnHpChanged;
         _stateData.OnLoadChanged += OnLoadChanged;
         OnHpChanged(_stateData.hp, _stateData.maxHp);
         OnLoadChanged(_stateData.currentLoad, _stateData.maxLoad);
+        hotbar.Initialize(pc);
     }
 
     public void Cleanup()

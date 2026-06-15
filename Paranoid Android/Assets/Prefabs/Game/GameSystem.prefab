@@ -605,13 +605,15 @@ GameObject:
   - component: {fileID: 4911916865893868604}
   - component: {fileID: 6053075881510636879}
   - component: {fileID: 199404289773257221}
+  - component: {fileID: 2378566934379003923}
+  - component: {fileID: 2511291993116572337}
   m_Layer: 5
   m_Name: PausePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2481608188214947147
 RectTransform:
   m_ObjectHideFlags: 0
@@ -698,6 +700,33 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2378566934379003923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608500134413113131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375c7d91a78208e42b2c40546ffcba14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 0
+  quitButton: {fileID: 6386081943406484679}
+  continueButton: {fileID: 46298417293649856}
+--- !u!225 &2511291993116572337
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608500134413113131}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &767161051980145109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,6 +1615,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
+  hotbar: {fileID: 2933213144788361784}
 --- !u!1 &2599614407776241224
 GameObject:
   m_ObjectHideFlags: 0
@@ -4355,6 +4385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryPanel: {fileID: 1429119321048340693}
   loadingPanel: {fileID: 96897176516084508}
+  pausePanel: {fileID: 2378566934379003923}
+  deathPanel: {fileID: 2819212301678439355}
   crosshair: {fileID: 4654812768031256924}
   hud: {fileID: 7832777880471085753}
 --- !u!1 &6355669880340473924
@@ -5157,13 +5189,14 @@ GameObject:
   - component: {fileID: 6358487300225444613}
   - component: {fileID: 8829109177058114335}
   - component: {fileID: 4977143230563821675}
+  - component: {fileID: 2819212301678439355}
   m_Layer: 5
   m_Name: DeathPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3565643898846155956
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5262,6 +5295,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &2819212301678439355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8204906350715432722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a88604c6b46f74f8582902461afc90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 0
+  _actionButton: {fileID: 8358260886361155011}
+  _shelterSceneName: ShelterScene
 --- !u!1 &8293717748739435248
 GameObject:
   m_ObjectHideFlags: 0
