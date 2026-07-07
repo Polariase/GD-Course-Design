@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Item_2002
   m_EditorClassIdentifier: 
   itemID: 2002
-  itemName: MiddleGena
-  description: Middle bullet Generator
-  maxStack: 1
+  itemName: "\u6570\u636E\u82AF\u7247"
+  description: "\u80FD\u89E3\u6790\u51FA\u5927\u91CF\u6570\u636E\u7684\u6837\u54C1\u3002"
+  maxStack: 20
   itemType: 3
   weight: 0.3
   value: 100
-  iconAddress: MiddleGenaIcon
-  prefabAddress: MiddleGena
+  iconAddress: "\u6570\u636E\u82AF\u7247Icon"
+  prefabAddress: "\u6570\u636E\u82AF\u7247"

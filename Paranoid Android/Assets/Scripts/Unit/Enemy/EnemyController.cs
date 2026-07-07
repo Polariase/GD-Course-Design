@@ -1,9 +1,6 @@
 using BehaviorDesigner.Runtime;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.Android;
 
 public class EnemyController : UnitController
 {
@@ -42,13 +39,23 @@ public class EnemyController : UnitController
         Init();
     }
 
+    public void Spawn(Vector3 spawnPosition, Quaternion spawnRotation)
+    {
+        transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+        Init();
+    }
+
     public virtual void Init()
     {
-        isDead = false;
         hp = maxHp;
+        isDead = false;
         lostPos = transform.position;
-        behaviorTree.EnableBehavior();
+        agent.speed = moveSpeed;
+        agent.acceleration = 4f * moveSpeed;
+        agent.angularSpeed = 360f;
+        agent.stoppingDistance = 1f;
         agent.enabled = true;
+        behaviorTree.EnableBehavior();
     }
 
     protected virtual void Scan()

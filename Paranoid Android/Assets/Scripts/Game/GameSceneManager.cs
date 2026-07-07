@@ -24,7 +24,7 @@ public class GameSceneManager : MonoBehaviour
     private IEnumerator LoadSceneRoutine(string sceneName)
     {
         UIManager.Instance.ShowLoading(true);
-
+        PoolManager.Instance.DeactiveAll();
         yield return new WaitForSeconds(0.2f);
         OnSceneLoadStarted?.Invoke(sceneName);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);

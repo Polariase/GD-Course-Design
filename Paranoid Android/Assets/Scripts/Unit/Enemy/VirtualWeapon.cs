@@ -12,19 +12,35 @@ public class VirtualWeapon : MonoBehaviour
     public float fireRate = 4f;
     public float bulletSpeed = 15f;
     public float distance = 25f;   
-    public float spreadAngle = 3.5f;  
+    public float spreadAngle = 3.5f;
+
+    private AudioSource _weaponAudioSource;
 
     private float _fireTimer;
 
     private void Awake()
     {
         firePoint = transform.Find("FirePoint");
+        if (firePoint != null)
+        {
+            _weaponAudioSource = firePoint.GetComponent<AudioSource>();
+        }
         unit = GetComponent<EnemyController>();
     }
 
     private void Start()
     {
         bulletPool = PoolManager.Instance.bullet;
+        if (_weaponAudioSource != null && AudioManager.Instance != null)
+        {
+            _weaponAudioSource.spatialBlend = 1.0f;
+            _weaponAudioSource.minDistance = 2f;
+            _weaponAudioSource.maxDistance = 25f;
+            _weaponAudioSource.rolloffMode = AudioRolloffMode.Linear;
+            _weaponAudioSource.outputAudioMixerGroup = AudioManager.Instance.GetSFXGroup();
+            _weaponAudioSource.playOnAwake = false;
+            _weaponAudioSource.loop = false;
+        }
     }
 
     void Update()
@@ -70,5 +86,15 @@ public class VirtualWeapon : MonoBehaviour
         bulletPool.GetAndSet(typeKey, firePoint.position, finalBulletRotation, bulletSpeed, distance, enemyLayer, unit.damage, null);
 
         _fireTimer = (repeating ? 0.5f : 1f) / fireRate;
+
+        if (_weaponAudioSource != null && AudioManager.Instance != null)
+        {
+            AudioClip currentFireClip = AudioManager.Instance.GetWeaponFireClip();
+
+            if (currentFireClip != null)
+            {
+                AudioManager.Instance.Play3DSound(_weaponAudioSource, currentFireClip);
+            }
+        }
     }
 }

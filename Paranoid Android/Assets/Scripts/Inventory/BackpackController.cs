@@ -42,17 +42,22 @@ public class BackpackController : BaseInventoryController
 
         if (Input.GetKeyDown(KeyCode.Keypad4))
         {
-            inventoryData.AddItem(2001, 1);
+            inventoryData.AddItem(2001, 5);
         }
 
         if (Input.GetKeyDown(KeyCode.Keypad5))
         {
-            inventoryData.AddItem(2002, 1);
+            inventoryData.AddItem(2002, 5);
         }
 
         if (Input.GetKeyDown(KeyCode.Keypad6))
         {
             inventoryData.AddItem(2003, 1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Keypad7))
+        {
+            inventoryData.AddItem(2004, 1);
         }
     }
 }

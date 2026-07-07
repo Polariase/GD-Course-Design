@@ -20,6 +20,19 @@ public abstract class UnitController : MonoBehaviour, IHittable
         capsule = GetComponentInChildren<CapsuleCollider>();
     }
 
+    public virtual void Say(string text, float duration = 2f, WordTextType type = WordTextType.Neutral)
+    {
+        if (isDead) return;
+
+        Vector3 spawnPos = capsule != null  ? capsule.bounds.center + Vector3.up * capsule.bounds.extents.y
+            : transform.position + Vector3.up * 2f;
+
+        if (PopupManager.Instance != null)
+        {
+            PopupManager.Instance.ShowWordText(spawnPos, text, type, transform, duration);
+        }
+    }
+
     public virtual bool Hit(int damage, Vector3 hitPoint, bool isCrit)
     {
         if (isInvincible) return false;

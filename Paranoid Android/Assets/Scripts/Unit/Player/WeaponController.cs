@@ -15,7 +15,8 @@ public enum BulletType
     MagicArrow,
     RedStar,
     Scarlet,
-    Twist
+    Twist,
+    Missile
 }
 
 public static class BulletTypeExtensions
@@ -31,6 +32,7 @@ public static class BulletTypeExtensions
             BulletType.RedStar => "RedStar",
             BulletType.Scarlet => "Scarlet",
             BulletType.Twist => "Twist",
+            BulletType.Missile => "Missile",
             _ => "Normal"
         };
     }
@@ -43,6 +45,7 @@ public class WeaponController : MonoBehaviour
     public MyPool.BulletPool bulletPool;
     public Transform firePoint;
     public BulletType bulletType;
+    private AudioSource _weaponAudioSource;
     private PlayerController _player;
     private PlayerStateData _stateData;
 
@@ -97,7 +100,7 @@ public class WeaponController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             int currentIndex = (int)bulletType;
-            int nextIndex = (currentIndex + 1) % 7;
+            int nextIndex = (currentIndex + 1) % 8;
             bulletType = (BulletType)nextIndex;
         }
     }
@@ -125,11 +128,13 @@ public class WeaponController : MonoBehaviour
 
         fireRate = data.fireRate;
         loadPerShot = data.loadPerShot;
+        damage = data.damage;
         baseSpread = data.baseSpread;
         aimSpreadMult = data.aimSpreadMult;
         aimSpeed = data.aimSpeed;
         distance = data.distance;
         bulletSpeed = data.bulletSpeed;
+        bulletType = data.bulletType;
 
         string addressKey = data.itemName + "Model";
 
@@ -152,6 +157,25 @@ public class WeaponController : MonoBehaviour
             if (muzzle != null)
             {
                 firePoint = muzzle;
+                _weaponAudioSource = muzzle.gameObject.GetComponent<AudioSource>();
+                if (_weaponAudioSource == null)
+                {
+                    _weaponAudioSource = muzzle.gameObject.AddComponent<AudioSource>();
+                }
+
+                _weaponAudioSource.spatialBlend = 1f;
+                _weaponAudioSource.minDistance = 2f;
+                _weaponAudioSource.maxDistance = 25f;
+
+                _weaponAudioSource.rolloffMode = AudioRolloffMode.Linear;
+
+                if (AudioManager.Instance != null)
+                {
+                    _weaponAudioSource.outputAudioMixerGroup = AudioManager.Instance.GetSFXGroup();
+                }
+
+                _weaponAudioSource.playOnAwake = false;
+                _weaponAudioSource.loop = false;
             }
             else
             {
@@ -265,5 +289,11 @@ public class WeaponController : MonoBehaviour
         bulletPool.GetAndSet(typeKey, firePoint.position, finalBulletRotation, bulletSpeed, distance, playerLayer, damage, aimedTarget, critChance);
 
         _stateData.Overload(loadPerShot);
+
+        if (_weaponAudioSource != null && AudioManager.Instance != null)
+        {
+            AudioClip currentFireClip = AudioManager.Instance.GetWeaponFireClip();
+            AudioManager.Instance.Play3DSound(_weaponAudioSource, currentFireClip);
+        }
     }
 }

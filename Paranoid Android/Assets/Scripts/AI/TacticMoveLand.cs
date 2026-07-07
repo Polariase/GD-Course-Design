@@ -71,7 +71,7 @@ public class TacticMoveLand : Action
             Vector3 candidatePos = targetPos + new Vector3(randomCircle.x, 0, randomCircle.y);
 
             // 在地面上采样，检测是否在可移动的 NavMesh 上
-            if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 3.0f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 3.0f, agent.areaMask))
             {
                 float score = 100f; // 初始满分
 
@@ -89,7 +89,7 @@ public class TacticMoveLand : Action
 
                 // 惩罚项三：死角与墙壁规避（核心升级点）
                 // 寻找该候选点最近的 NavMesh 边界边缘
-                if (NavMesh.FindClosestEdge(hit.position, out NavMeshHit edgeHit, NavMesh.AllAreas))
+                if (NavMesh.FindClosestEdge(hit.position, out NavMeshHit edgeHit, agent.areaMask))
                 {
                     // 如果该点距离墙壁/死角边缘小于 1.8 米，说明空间极度狭窄
                     if (edgeHit.distance < 1.2f)

@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 1001
   itemName: Protoza
-  description: Inital Weapon
+  description: "\u4E00\u628A\u7C97\u5236\u6EE5\u9020\u7684\u6B66\u5668\uFF0C\u53EA\u6BD4\u6CA1\u6709\u6B66\u5668\u597D\u4E00\u4E9B\u3002"
   maxStack: 1
   itemType: 0
   weight: 0.8
-  value: 50
+  value: -1
   iconAddress: ProtozaIcon
   prefabAddress: Protoza
-  fireRate: 4.5
-  loadPerShot: 0.5
-  baseSpread: 5
-  aimSpreadMult: 0.7
-  aimSpeed: 0.4
+  fireRate: 6
+  loadPerShot: 1
+  baseSpread: 8
+  aimSpreadMult: 0.6
+  aimSpeed: 0.3
   damage: 12
-  bulletSpeed: 12
-  distance: 14
+  bulletSpeed: 18
+  distance: 20
+  bulletType: 0
   modelAddress: ProtozaModel

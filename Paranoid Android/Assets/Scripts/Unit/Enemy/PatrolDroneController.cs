@@ -1,4 +1,5 @@
 using BehaviorDesigner.Runtime;
+using MyPool;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,6 +91,16 @@ public class PatrolDroneController : EnemyController
     {
         yield return new WaitForSeconds(delay);
         Instantiate(DeathVFX, HitPoint(), Quaternion.identity);
-        Destroy(gameObject);
+        PoolManager.Instance.enemy.Release(gameObject,GetComponent<PoolItem>().key);
+        Vector3 explosionPos = HitPoint();
+        if (PoolManager.Instance != null && PoolManager.Instance.aud != null && AudioManager.Instance != null)
+        {
+            AudioClip explosionAudio = AudioManager.Instance.genericExplosionClip;
+
+            if (explosionAudio != null)
+            {
+                PoolManager.Instance.aud.PlaySoundAtPoint("Audio", explosionAudio, explosionPos, 0.88f, 1.12f, true);
+            }
+        }
     }
 }

@@ -11,4 +11,6 @@ public class Teleporter : MonoBehaviour, IInteractable
             GameSceneManager.Instance.LoadScene(targetSceneName);
         }
     }
+
+    public string ActionName => "ดซหอ";
 }

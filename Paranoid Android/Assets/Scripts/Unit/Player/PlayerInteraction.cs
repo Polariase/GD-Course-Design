@@ -100,7 +100,8 @@ public class PlayerInteraction : MonoBehaviour
                     _currentActivePrompt = PopupManager.Instance.ShowInteractPrompt(mb.transform.position, promptHeightOffset);
                     if (_currentActivePrompt != null && _currentActivePrompt.TryGetComponent<InteractPrompt>(out var promptScript))
                     {
-                        promptScript.Init(mb.transform, promptHeightOffset);
+                        string actionText = topInteractable.ActionName;
+                        promptScript.Init(mb.transform, promptHeightOffset, actionText);
                     }
                 }
             }

@@ -14,7 +14,7 @@ public class PlayerVisual : MonoBehaviour
     public string dissolveLevelName = "_DissolveLevel";
 
     public float maxBurnIntensity = 1f;
-    public float dissolveDuration = 1.5f;
+    public float dissolveDuration = 1.75f;
 
     private static MaterialPropertyBlock _mpb;
     private int _intensityID;
@@ -22,7 +22,7 @@ public class PlayerVisual : MonoBehaviour
     private int _dissolveLevelID;
     private Coroutine _dissolveCoroutine;
     private const float DISSOLVE_HIDDEN = -0.45f;
-    private const float DISSOLVE_SHOWN = 1.2f;
+    private const float DISSOLVE_SHOWN = 1.45f;
 
     void Awake()
     {

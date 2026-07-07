@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 1004
   itemName: Electris
-  description: Sniper Rifle
+  description: "\u4E00\u628A\u5A01\u529B\u5DE8\u5927\u7684\u6B66\u5668\uFF0C\u4F46\u4F1A\u5BF9\u4F7F\u7528\u8005\u9020\u6210\u5F88\u5927\u8D1F\u8F7D\u3002"
   maxStack: 1
   itemType: 0
   weight: 6.5
-  value: 500
+  value: -1
   iconAddress: ElectrisIcon
   prefabAddress: Electris
-  fireRate: 3
-  loadPerShot: 5
-  baseSpread: 3
-  aimSpreadMult: 0.4
-  aimSpeed: 1
-  damage: 43
-  bulletSpeed: 23
-  distance: 50
+  fireRate: 0.8
+  loadPerShot: 25
+  baseSpread: 6
+  aimSpreadMult: 0.16
+  aimSpeed: 1.2
+  damage: 134
+  bulletSpeed: 73
+  distance: 80
+  bulletType: 1
   modelAddress: ElectrisModel

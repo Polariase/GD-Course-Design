@@ -80,7 +80,7 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public ItemData GetItem(int id)
+    public ItemData GetItemData(int id)
     {
         if (_itemCache.TryGetValue(id, out var data))
         {

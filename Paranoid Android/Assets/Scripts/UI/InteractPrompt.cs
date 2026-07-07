@@ -6,11 +6,13 @@ public class InteractPrompt : MonoBehaviour
 {
     private Transform _targetHost;
     private float _heightOffset;
+    public TextMeshProUGUI promptText;
 
-    public void Init(Transform targetHost, float heightOffset)
+    public void Init(Transform targetHost, float heightOffset, string actionName)
     {
         _targetHost = targetHost;
         _heightOffset = heightOffset;
+        promptText.text = "[F]  " + actionName;
         UpdatePosition();
     }
 

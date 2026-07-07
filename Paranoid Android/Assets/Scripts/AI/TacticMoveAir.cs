@@ -60,7 +60,7 @@ public class TacticMoveAir : Action
             Vector2 randomCircle = Random.insideUnitCircle.normalized * Random.Range(minRange, maxRange);
             Vector3 candidatePos = targetPos + new Vector3(randomCircle.x, 0, randomCircle.y);
 
-            if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 2.0f, agent.areaMask))
             {
                 // 初始化基础分
                 float score = 100f;

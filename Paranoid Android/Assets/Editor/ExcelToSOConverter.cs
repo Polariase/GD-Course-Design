@@ -135,6 +135,17 @@ public class ExcelToSOConverter
                         float.TryParse(GetValue("Distance"), out float dist);
                         weapon.distance = dist;
 
+                        string bulletTypeStr = GetValue("BulletType");
+                        if (System.Enum.TryParse(bulletTypeStr, out BulletType bType))
+                        {
+                            weapon.bulletType = bType;
+                        }
+                        else
+                        {
+                            weapon.bulletType = BulletType.Normal;
+                            Debug.LogWarning($"[ExcelConverter] 物品 {weapon.itemName} 的 BulletType 配置有误或为空：'{bulletTypeStr}'，已默认设为 Normal。");
+                        }
+
                         weapon.modelAddress = weapon.itemName + "Model";
                     }
 

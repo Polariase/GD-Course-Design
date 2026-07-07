@@ -185,7 +185,24 @@ public class PlayerController : UnitController
 
         if (Input.GetKeyDown(KeyCode.K))
         {
+            Say("自我毁灭",3);
             Die();
+        }
+
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            if(stateData.maxHp< 1000000)
+            {
+                stateData.maxHp = 1000000;
+                stateData.Heal(1000000);
+                Say("进入无敌模式", 3, WordTextType.Good);
+            }
+            else
+            {
+                stateData.maxHp = 200;
+                stateData.Heal(200);
+                Say("退出无敌模式", 3);
+            }
         }
 
         stateData.Cooling(Time.deltaTime);

@@ -110,6 +110,8 @@ public class Bullet : MonoBehaviour
         int tLayer = hit.collider.gameObject.layer;
         IHittable currentTarget = hit.collider.GetComponentInParent<IHittable>();
 
+        bool hitFlesh = tLayer == _targetLayer;
+
         if (currentTarget != null && tLayer == _targetLayer)
         {
             if (recordedTarget != null && currentTarget == recordedTarget)
@@ -156,6 +158,16 @@ public class Bullet : MonoBehaviour
             if (ps != null) ps.Stop();
         }
 
+        if (PoolManager.Instance != null && PoolManager.Instance.aud != null)
+        {
+            AudioClip clipToPlay = hitFlesh ? AudioManager.Instance.fleshHitClip : AudioManager.Instance.wallHitClip;
+
+            if (clipToPlay != null)
+            {
+                PoolManager.Instance.aud.PlaySoundAtPoint("Audio", clipToPlay, hit.point);
+            }
+        }
+
         // 根据命中特效时长延迟回收
         float delay = (hitPS != null) ? hitPS.main.duration : 1f;
         StartCoroutine(DisableTimer(delay));
@@ -167,9 +179,29 @@ public class Bullet : MonoBehaviour
         ReturnToPool();
     }
 
-    void ReturnToPool()
+    public void ReturnToPool()
     {
         recordedTarget = null;
+        StopAllCoroutines();
+
+        if (flashObj != null)
+        {
+            flashObj.transform.parent = transform;
+            flashObj.transform.localPosition = Vector3.zero;
+            flashObj.transform.localEulerAngles = Vector3.zero;
+        }
+
+        if (hitObj != null)
+        {
+            if (hitPS != null) hitPS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            if (shatteringPS != null) shatteringPS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+
+        foreach (var ps in _detachedPS)
+        {
+            if (ps != null) ps.Stop();
+        }
+
         if (_pool != null)
         {
             _pool.Release(gameObject, _poolKey);

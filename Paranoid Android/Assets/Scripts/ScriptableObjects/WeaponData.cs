@@ -14,5 +14,7 @@ public class WeaponData : ItemData
     public float bulletSpeed;
     public float distance;
 
+    public BulletType bulletType;
+
     public string modelAddress;
 }

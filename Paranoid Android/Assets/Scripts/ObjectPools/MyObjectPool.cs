@@ -65,7 +65,7 @@ namespace MyPool
             }
         }
 
-        public void DeactivateAllPoolObjects()
+        public virtual void DeactivateAllPoolObjects()
         {
             foreach (Transform child in transform)
             {

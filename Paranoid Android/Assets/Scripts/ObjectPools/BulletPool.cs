@@ -22,6 +22,17 @@ namespace MyPool
             obj.SetActive(true);
             return obj;
         }
+
+        public override void DeactivateAllPoolObjects()
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.gameObject.activeSelf && child.TryGetComponent(out Bullet bullet))
+                {
+                    bullet.ReturnToPool();
+                }
+            }
+        }
     }
 }
 

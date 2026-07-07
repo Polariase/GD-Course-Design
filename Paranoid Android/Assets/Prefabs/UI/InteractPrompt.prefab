@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dadb4a2f26ea0ce4bbda5bc32051ea4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  promptText: {fileID: 2827418334713598897}
 --- !u!114 &752955644271572511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "[F]  \u4EA4\u4E92"
+  m_text: "[F]   \u4EA4\u4E92"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4e8c915ca1961394c968bd8f6cd37bac, type: 2}
   m_sharedMaterial: {fileID: -6796514639807964328, guid: 4e8c915ca1961394c968bd8f6cd37bac,

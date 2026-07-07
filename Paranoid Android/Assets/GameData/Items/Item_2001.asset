@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Item_2001
   m_EditorClassIdentifier: 
   itemID: 2001
-  itemName: SmallGena
-  description: Small bullet Generator
-  maxStack: 1
+  itemName: "\u7834\u635F\u6570\u636E\u82AF\u7247"
+  description: "\u548C\u5783\u573E\u6CA1\u6709\u592A\u5927\u533A\u522B\uFF0C\u4F46\u603B\u5F52\u80FD\u5F53\u4F5C\u6837\u54C1\u3002"
+  maxStack: 20
   itemType: 3
   weight: 0.2
-  value: 100
-  iconAddress: SmallGenaIcon
-  prefabAddress: SmallGena
+  value: 20
+  iconAddress: "\u7834\u635F\u6570\u636E\u82AF\u7247Icon"
+  prefabAddress: "\u7834\u635F\u6570\u636E\u82AF\u7247"

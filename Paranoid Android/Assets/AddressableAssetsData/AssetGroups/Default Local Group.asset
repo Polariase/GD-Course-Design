@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 889cca29e8e72aa43ac1040ee627aa30
   m_SerializeEntries:
+  - m_GUID: 1f1a20cb3130d884fa21be46ddc47113
+    m_Address: "\u6E05\u626B\u8005\u7684\u82AF\u7247Icon"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2b3ebea15f5285140a9ab3fd2e189745
     m_Address: Albus02Icon
     m_ReadOnly: 0
@@ -33,18 +38,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 40b90caeabf0fd74d9db21e6e273eb71
-    m_Address: SmallGena
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 44815080f5817d147b2eb662f59d9c03
     m_Address: ProtozaModel
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4a5b5cd0c938ced42849904561962a80
-    m_Address: SmallGenaIcon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -58,8 +53,19 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 59e060206364bba478448b90e8e80d5e
-    m_Address: LargeGena
+  - m_GUID: 668c36a4c37070f4a8b9e9fac357552a
+    m_Address: Assets/GameData/Items/Item_2004.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d8543f31ebc62d4a841bd724ab27a0f
+    m_Address: "\u6570\u636E\u82AF\u7247"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79477d2627cb6a54d9d2dfc7e2e85ffe
+    m_Address: "\u6570\u636E\u82AF\u7247Icon"
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -68,8 +74,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 93a1eca9881bb0b4eb3679ab7078428b
-    m_Address: LargeGenaIcon
+  - m_GUID: 8c63fcba7638bd94486014aac1a2b4fd
+    m_Address: "\u7834\u635F\u6570\u636E\u82AF\u7247"
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -83,18 +89,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1d53d7792a9ecf468317c694d046068
+    m_Address: "\u673A\u5BC6\u6570\u636E\u82AF\u7247"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a2581d44bcf03284f94ca25f89d01b68
     m_Address: ScrawlerIcon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: adfb0444cf3c4ef4bb189e049f093bf3
-    m_Address: MiddleGenaIcon
+  - m_GUID: a5b8747da5623f74091f05532affa069
+    m_Address: "\u6E05\u626B\u8005\u7684\u82AF\u7247"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba4fb9f39edd9c44fa4e3c41521f4661
+    m_Address: "\u673A\u5BC6\u6570\u636E\u82AF\u7247Icon"
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bb38fe150cce91f4ba55559b4bd8f9a1
     m_Address: Electris
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbb981f2e5bdc874a8b51b25dcddf260
+    m_Address: "\u7834\u635F\u6570\u636E\u82AF\u7247Icon"
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -146,11 +167,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f80b06e5bb8100446ad606b5f2ea1cf6
     m_Address: GameSystem
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fb3d5ba1b267cb642b74bc0f2bf11372
-    m_Address: MiddleGena
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

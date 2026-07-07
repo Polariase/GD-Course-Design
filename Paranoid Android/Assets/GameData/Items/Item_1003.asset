@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 1003
   itemName: Scrawler
-  description: Rifle
+  description: "\u4E00\u628A\u5F88\u5747\u8861\u7684\u5F3A\u529B\u6B66\u5668\uFF0C\u662F\u4EE5\u65E7\u65E5\u7684\u519B\u7528\u6B66\u5668\u4E3A\u6A21\u677F\u5236\u4F5C\u7684\u3002"
   maxStack: 1
   itemType: 0
   weight: 3.5
-  value: 500
+  value: -1
   iconAddress: ScrawlerIcon
   prefabAddress: Scrawler
-  fireRate: 6
+  fireRate: 10
   loadPerShot: 2.5
-  baseSpread: 3.3
-  aimSpreadMult: 0.5
+  baseSpread: 3
+  aimSpreadMult: 0.4
   aimSpeed: 0.7
-  damage: 35
-  bulletSpeed: 18
-  distance: 30
+  damage: 20
+  bulletSpeed: 30
+  distance: 35
+  bulletType: 5
   modelAddress: ScrawlerModel

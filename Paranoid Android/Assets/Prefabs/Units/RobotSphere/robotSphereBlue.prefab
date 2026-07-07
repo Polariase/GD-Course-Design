@@ -168,6 +168,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 68b82c4334a654f42bee32f2ae5edc1f, type: 2}
+    - target: {fileID: 5920186982922290526, guid: f2c434dd44d2d364a9a404b20bc6eee1,
+        type: 3}
+      propertyPath: key
+      value: BlueRobot
+      objectReference: {fileID: 0}
     - target: {fileID: 6055343261975755938, guid: f2c434dd44d2d364a9a404b20bc6eee1,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -190,8 +195,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889304604991137731, guid: f2c434dd44d2d364a9a404b20bc6eee1,
         type: 3}
-      propertyPath: activateRadius
+      propertyPath: damage
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889304604991137731, guid: f2c434dd44d2d364a9a404b20bc6eee1,
+        type: 3}
+      propertyPath: moveSpeed
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889304604991137731, guid: f2c434dd44d2d364a9a404b20bc6eee1,
+        type: 3}
+      propertyPath: rollDamage
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889304604991137731, guid: f2c434dd44d2d364a9a404b20bc6eee1,
+        type: 3}
+      propertyPath: activateRadius
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6889304604991137731, guid: f2c434dd44d2d364a9a404b20bc6eee1,
         type: 3}

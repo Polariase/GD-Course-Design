@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Item_2003
   m_EditorClassIdentifier: 
   itemID: 2003
-  itemName: LargeGena
-  description: Large bullet Generator
-  maxStack: 1
+  itemName: "\u673A\u5BC6\u6570\u636E\u82AF\u7247"
+  description: "\u5B58\u50A8\u7740\u91CD\u8981\u519B\u7528\u6570\u636E\u7684\u82AF\u7247\uFF0C\u867D\u7136\u7834\u89E3\u5F88\u56F0\u96BE\uFF0C\u4F46\u6BEB\u65E0\u7591\u95EE\u662F\u6700\u5408\u9002\u7684\u6837\u54C1\u4E4B\u4E00\u3002"
+  maxStack: 5
   itemType: 3
   weight: 0.5
-  value: 100
-  iconAddress: LargeGenaIcon
-  prefabAddress: LargeGena
+  value: 1000
+  iconAddress: "\u673A\u5BC6\u6570\u636E\u82AF\u7247Icon"
+  prefabAddress: "\u673A\u5BC6\u6570\u636E\u82AF\u7247"

@@ -1,9 +1,5 @@
-using BehaviorDesigner.Runtime;
-using System.Collections;
-using System.Collections.Generic;
+using MyPool;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.InputSystem.Android;
 
 public class RobotSphereController : EnemyController
 {
@@ -24,7 +20,7 @@ public class RobotSphereController : EnemyController
     {
         base.Awake();
         combatRadius = detectRadius * 0.55f;
-        rollDistance = detectRadius * 0.6f;
+        rollDistance = detectRadius * 0.8f;
         Init();
     }
 
@@ -164,7 +160,7 @@ public class RobotSphereController : EnemyController
                 if (unit is PlayerController playerController)
                 {
                     Vector3 contactPoint = collision.contacts.Length > 0 ? collision.contacts[0].point : unit.transform.position;
-                    playerController.TakeDamage(50, contactPoint, true);
+                    playerController.TakeDamage(rollDamage, contactPoint, true);
                 }
                 StopRollingPhase();
             }
@@ -188,7 +184,10 @@ public class RobotSphereController : EnemyController
         agent.speed = moveSpeed;
         agent.acceleration = agent.speed * 4;
         isRollReady = false;
-        agent.ResetPath();
+        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            agent.ResetPath();
+        }
         animator.SetBool("IsRolling", false); // 此时 isRolling 依然为 true，直到 Roll_End 动画播完触发 CompleteRolling() 才会完全彻底结束
     }
 
@@ -227,13 +226,24 @@ public class RobotSphereController : EnemyController
         }
     }
 
-    public void OnDeathAnimationFinished()
+    public virtual void OnDeathAnimationFinished()
     {
         if (DeathVFX != null)
         {
             Instantiate(DeathVFX, HitPoint(), Quaternion.identity);
         }
 
-        Destroy(gameObject);
+        Vector3 explosionPos = HitPoint();
+        if (PoolManager.Instance != null && PoolManager.Instance.aud != null && AudioManager.Instance != null)
+        {
+            AudioClip explosionAudio = AudioManager.Instance.genericExplosionClip;
+
+            if (explosionAudio != null)
+            {
+                PoolManager.Instance.aud.PlaySoundAtPoint("Audio", explosionAudio, explosionPos, 0.88f, 1.12f, true);
+            }
+        }
+
+        PoolManager.Instance.enemy.Release(gameObject, GetComponent<PoolItem>().key);
     }
 }

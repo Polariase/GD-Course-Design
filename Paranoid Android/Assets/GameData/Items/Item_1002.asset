@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 1002
   itemName: Albus02
-  description: Submachine Gun
+  description: "\u4E00\u628A\u5C04\u901F\u975E\u5E38\u5FEB\u7684\u6B66\u5668\uFF0C\u7F3A\u70B9\u662F\u6563\u5E03\u8F83\u5927\u4EE5\u53CA\u5C04\u7A0B\u8F83\u77ED\u3002"
   maxStack: 1
   itemType: 0
   weight: 2.8
-  value: 500
+  value: -1
   iconAddress: Albus02Icon
   prefabAddress: Albus02
-  fireRate: 8
-  loadPerShot: 1.5
-  baseSpread: 3.3
-  aimSpreadMult: 0.5
-  aimSpeed: 0.6
-  damage: 25
-  bulletSpeed: 15
-  distance: 20
+  fireRate: 13
+  loadPerShot: 1.8
+  baseSpread: 5.5
+  aimSpreadMult: 0.4
+  aimSpeed: 0.8
+  damage: 16
+  bulletSpeed: 26
+  distance: 25
+  bulletType: 2
   modelAddress: Albus02Model

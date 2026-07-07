@@ -9,6 +9,8 @@ public class PoolManager : MonoBehaviour
     public BulletPool bullet;
     public ItemObjectPool item;
     public PopupPool popup;
+    public EnemyPool enemy;
+    public AudioPool aud;
 
     public void Awake()
     {
@@ -18,6 +20,8 @@ public class PoolManager : MonoBehaviour
             bullet = GetComponentInChildren<BulletPool>();
             item = GetComponentInChildren<ItemObjectPool>();
             popup = GetComponentInChildren<PopupPool>();
+            aud = GetComponentInChildren<AudioPool>();
+            enemy = GetComponentInChildren<EnemyPool>();
         }
         else
         {
@@ -28,5 +32,9 @@ public class PoolManager : MonoBehaviour
     public void DeactiveAll()
     {
         bullet.DeactivateAllPoolObjects();
+        item.DeactivateAllPoolObjects();
+        popup.DeactivateAllPoolObjects();
+        enemy.DeactivateAllPoolObjects();
+        aud.DeactivateAllPoolObjects();
     }
 }

@@ -18,8 +18,12 @@ public class InventoryPanel : BasePanel
         hotbarGroup.interactable = false;
         if (InventoryManager.Instance != null)
         {
+            if (InventoryManager.Instance.container is ContainerController containerCtrl)
+            {
+                containerCtrl.CloseCurrentContainer();
+            }
             InventoryManager.Instance.ForceCancelDrag();
-            InventoryManager.Instance.HideTooltip();    
+            InventoryManager.Instance.HideTooltip();
         }
     }
 }

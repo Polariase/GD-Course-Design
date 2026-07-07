@@ -39,10 +39,10 @@ public static class ItemTypeExtensions
     {
         return type switch
         {
-            ItemType.Weapon => "Weapon",
-            ItemType.Ammo => "Ammo",
-            ItemType.Consumable => "Consumable",
-            ItemType.Loot => "Loot",
+            ItemType.Weapon => "武器",
+            ItemType.Ammo => "弹药",
+            ItemType.Consumable => "可用道具",
+            ItemType.Loot => "战利品",
             _ => "Unknown"
         };
     }

@@ -44,7 +44,7 @@ public class Patrol : Action
         Vector3 randomSphere = Random.insideUnitSphere * patrolRadius;
         Vector3 candidatePos = lostPos.Value + new Vector3(randomSphere.x, 0, randomSphere.z);
 
-        if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, patrolRadius, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, patrolRadius, agent.areaMask))
         {
             targetPosition.Value = hit.position;
             agent.SetDestination(targetPosition.Value);

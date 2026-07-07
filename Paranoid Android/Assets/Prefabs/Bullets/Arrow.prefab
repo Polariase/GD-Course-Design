@@ -9837,9 +9837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 35
   maxDistance: 20
-  hitLayer:
-    serializedVersion: 2
-    m_Bits: 129
+  damage: 1
   UseFirePointRotation: 0
   hitOffset: 0.1
   rotationOffset: {x: 0, y: 0, z: 0}
@@ -9851,6 +9849,7 @@ MonoBehaviour:
   detachedObj:
   - {fileID: 5251065209237487717}
   lightSource: {fileID: 0}
+  critRate: 0
 --- !u!108 &7851384229815609165
 Light:
   m_ObjectHideFlags: 0

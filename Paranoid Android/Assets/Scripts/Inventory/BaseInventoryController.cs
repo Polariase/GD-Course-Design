@@ -95,24 +95,11 @@ public abstract class BaseInventoryController : MonoBehaviour, IInventoryHandler
     }
 
 
-    public virtual void RequestTransfer(DragPayload session, int targetIndex)
+    public void RequestTransfer(DragPayload session, int targetIndex)
     {
         InventoryData sourceData = session.SourceHandler.GetData();
-        InventoryItem incomingItem = session.Item;
-        InventoryItem targetItem = inventoryData.GetItem(targetIndex);
-
-        if (!CanAcceptItem(incomingItem)) return;
-        if (targetItem != null && !session.SourceHandler.CanAcceptItem(targetItem)) return;
-
-        if (session.SourceHandler == (IInventoryHandler)this)
-        {
-            inventoryData.SwapItems(session.SourceIndex, targetIndex);
-        }
-        else
-        {
-            inventoryData.SetItem(targetIndex, incomingItem);
-            sourceData.SetItem(session.SourceIndex, targetItem);
-        }
+        if (sourceData == null || inventoryData == null) return;
+        sourceData.TrySwapOrMerge(session.SourceIndex, inventoryData, targetIndex);
     }
 
     public virtual void RequestDrop(DragPayload session)

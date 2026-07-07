@@ -37,22 +37,61 @@ public class InventoryData
         OnSlotChanged?.Invoke(index, item);
     }
 
-    public bool SwapItems(int indexA, int indexB)
+    public bool TrySwapOrMerge(int sourceIndex, InventoryData targetData, int targetIndex)
     {
-        if (indexA == indexB) return false;
-        if (indexA < 0 || indexA >= _items.Count || indexB < 0 || indexB >= _items.Count) return false;
+        if (targetData == null) return false;
+        if (sourceIndex < 0 || sourceIndex >= _items.Count) return false;
+        if (targetIndex < 0 || targetIndex >= targetData._items.Count) return false;
+        if (targetData == this && sourceIndex == targetIndex) return false;
 
-        (_items[indexA], _items[indexB]) = (_items[indexB], _items[indexA]);
+        InventoryItem itemA = _items[sourceIndex];
+        InventoryItem itemB = targetData._items[targetIndex];
 
-        OnSlotChanged?.Invoke(indexA, _items[indexA]);
-        OnSlotChanged?.Invoke(indexB, _items[indexB]);
+        if (itemA == null) return false;
+
+        if (!targetData.Acceptable(itemA)) return false;
+        if (itemB != null && !Acceptable(itemB)) return false;
+
+        if (itemB != null && itemA.data.itemID == itemB.data.itemID)
+        {
+            ItemData config = itemB.data;
+            int maxStack = config != null ? config.maxStack : 1;
+
+            if (maxStack > 1)
+            {
+                int canAdd = maxStack - itemB.count;
+                if (canAdd > 0)
+                {
+                    int toAdd = Math.Min(canAdd, itemA.count);
+                    itemB.AddCount(toAdd);
+                    targetData.SetItem(targetIndex, itemB);
+                    itemA.AddCount(-toAdd);
+                    if (itemA.count <= 0)
+                    {
+                        SetItem(sourceIndex, null);
+                    }
+                    else
+                    {
+                        SetItem(sourceIndex, itemA);
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        _items[sourceIndex] = itemB;
+        targetData._items[targetIndex] = itemA;
+
+        OnSlotChanged?.Invoke(sourceIndex, itemB);
+        targetData.OnSlotChanged?.Invoke(targetIndex, itemA);
 
         return true;
     }
 
     public InventoryItem AddItem(int itemID,int count)
     {
-        return AddItem(new(DataManager.Instance.GetItem(itemID), count));
+        return AddItem(new(DataManager.Instance.GetItemData(itemID), count));
     }
 
     public InventoryItem AddItem(InventoryItem incomingItem)

@@ -22,7 +22,21 @@ public class InventoryTooltip : MonoBehaviour
         ItemData config = item.data;
         titleText.text = config.itemName;
         descriptionText.text = config.description;
-        infoText.text = $"type: {config.itemType.ToDisplayName()} | occupation: {config.weight * item.count}";
+        string baseInfo = $"\n物品类型：{config.itemType.ToDisplayName()}" + (config.value > 0 ?
+                      $" | 数据价值：{config.value * item.count}" : "");
+        if (config is WeaponData weapon)
+        {
+            baseInfo += "\n\n" +
+                        $"基础伤害: {weapon.damage}\n" +
+                        $"射速: {weapon.fireRate}\n" +
+                        $"弹速: {weapon.bulletSpeed}\n" +
+                        $"射程: {weapon.distance}\n" +
+                        $"负载量: {weapon.loadPerShot}\n" +
+                        $"枪械散布: {weapon.baseSpread}\n" +
+                        $"瞄准速度: {weapon.aimSpeed}\n" +
+                        $"瞄准散布系数: {Mathf.RoundToInt(weapon.aimSpreadMult * 100f)}%";
+        }
+        infoText.text = baseInfo;
         gameObject.SetActive(true);
 
         UpdatePosition(position);

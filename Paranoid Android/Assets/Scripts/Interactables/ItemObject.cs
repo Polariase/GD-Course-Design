@@ -22,4 +22,6 @@ public class ItemObject : MonoBehaviour,IInteractable
     {
         item = newItem;
     }
+
+    public string ActionName => "拾取";
 }
